@@ -1,5 +1,11 @@
 import { IGNORE_KEYS, KEYS, BLINK_CHARACTER, HOST } from "./constants.js";
-import { processCommand } from "./commands.js";
+import {
+  processCommand,
+  history,
+  historyIndex,
+  incrementHistoryIndex,
+  decrementHistoryIndex,
+} from "./commands.js";
 import { fileSystem } from "./fs.js";
 
 var isControlPressed = false;
@@ -44,6 +50,30 @@ addEventListener("keydown", async (event) => {
       input.textContent = input.textContent.slice(0, endIndex);
     }
     return;
+  }
+
+  if (event.key === "ArrowUp") {
+    if (history.length > 0) {
+      let previous = history.length - 1 - historyIndex;
+      if (previous < 0) {
+        return;
+      }
+      incrementHistoryIndex();
+      input.textContent = history[previous];
+      return;
+    }
+  }
+
+  if (event.key === "ArrowDown") {
+    if (history.length > 0) {
+      let next = history.length - historyIndex + 1;
+      if (next > history.length) {
+        return;
+      }
+      decrementHistoryIndex();
+      input.textContent = history[next];
+      return;
+    }
   }
 
   if (isCopy(event)) {

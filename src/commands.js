@@ -1,6 +1,11 @@
 import { fileSystem } from "./fs.js";
 
+var commandsHistory = [];
+var historyIndex = 0;
+
 function processCommand(cmd) {
+  commandsHistory.push(cmd);
+  historyIndex = 0;
   const { command, args } = validateCommand(cmd);
   switch (command) {
     case "ls":
@@ -15,6 +20,8 @@ function processCommand(cmd) {
       return cat(args);
     case "help":
       return help();
+    case "history":
+      return history();
     default:
       return createNewResultLine(
         `Command not found: "${command}". Type "help" for more information.`
@@ -78,6 +85,20 @@ function cat(args) {
 
 function help() {}
 
+function history() {
+  let content = createNewResultLine("");
+  content.className += " history";
+  for (const cmd in commandsHistory) {
+    if (Object.hasOwnProperty.call(commandsHistory, cmd)) {
+      const element = commandsHistory[cmd];
+      var span = document.createElement("span");
+      span.textContent = element;
+      content.appendChild(span);
+    }
+  }
+  return content;
+}
+
 function createNewResultLine(content) {
   var line = document.createElement("li");
   line.className = "result";
@@ -85,4 +106,12 @@ function createNewResultLine(content) {
   return line;
 }
 
-export { processCommand };
+export function incrementHistoryIndex() {
+  historyIndex++;
+}
+
+export function decrementHistoryIndex() {
+  historyIndex--;
+}
+
+export { processCommand, history, historyIndex };

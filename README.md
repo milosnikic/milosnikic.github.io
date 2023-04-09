@@ -10,10 +10,12 @@ education, past experience, projects and interests in a linux terminal style.
 
 ## TODO
 
-- [ ] Add functionality with arrows
+- [ ] Add functionality with arrows (left-right)
+- [x] Add functionality with arrows (up-down) for browsing history
 - [ ] Try to implement autocomplete suggestions
 - [ ] Add comments functionality
 - [ ] Dark/Light theme
+- [x] Commands history
 
 ## Authors
 
