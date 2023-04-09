@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>milOS CLI</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <link rel="icon" type="image/x-icon" href="./src/images/favicon.png" />
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="#home">
+        <span>milOS CLI: Streamline Your Skills</span>
+        ><span class="blink">_</span>
+      </a>
+    </div>
+    <canvas id="canvas"> </canvas>
+    <div class="terminal">
+      <div class="terminal-nav">
+        <div class="icons">
+          <div class="icon" id="exit"></div>
+          <div class="icon" id="minimize"></div>
+          <div class="icon" id="maximize"></div>
+        </div>
+        <div class="terminal-name">milos-nikic@localhost</div>
+      </div>
+      <div class="terminal-content" id="terminal-content">
+        <ul id="commands" class="commands"></ul>
+      </div>
+    </div>
+    <div class="footer">
+      <a
+        href="https://github.com/milosnikic/terminal-portfolio"
+        target="_blank"
+      >
+        <img class="social-icon" src="./src/images/gh-white.svg" alt="Github" />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/milo%C5%A1-niki%C4%87-a14a56160/"
+        target="_blank"
+      >
+        <img
+          class="social-icon"
+          src="./src/images/li-white.svg"
+          alt="Linkedin"
+        />
+      </a>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="./src/terminal.js"></script>
+    <script type="module" src="./src/fs.js"></script>
+  </body>
+</html>
