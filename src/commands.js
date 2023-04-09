@@ -11,18 +11,15 @@ function processCommand(cmd) {
       return pwd();
     case "clear":
       return clear();
+    case "cat":
+      return cat(args);
+    case "help":
+      return help();
     default:
       return createNewResultLine(
-        `Unknown command "${command}". Type "help" for more information.`
+        `Command not found: "${command}". Type "help" for more information.`
       );
   }
-}
-
-function createNewResultLine(content) {
-  var line = document.createElement("li");
-  line.className = "result";
-  line.textContent = content;
-  return line;
 }
 
 function validateCommand(cmd) {
@@ -52,11 +49,8 @@ function ls(args) {
 }
 
 function cd(args) {
-  if (fileSystem.changeDirectory(args)) {
-    return "";
-  }
-
-  return createNewResultLine(`Cannot find path ${args}.`);
+  if (!fileSystem.changeDirectory(args))
+    return createNewResultLine(`Cannot find path "${args}".`);
 }
 
 function pwd() {
@@ -65,6 +59,30 @@ function pwd() {
 
 function clear() {
   document.getElementById("commands").innerHTML = "";
+}
+
+function cat(args) {
+  const object = fileSystem.getObjectByName(args);
+  if (!object) {
+    return createNewResultLine(`Unknown object "${args}".`);
+  }
+
+  if (object.type === "directory") {
+    return createNewResultLine(
+      `Cannot cat a "${args}" since it is a directory.`
+    );
+  }
+
+  return createNewResultLine(object.content);
+}
+
+function help() {}
+
+function createNewResultLine(content) {
+  var line = document.createElement("li");
+  line.className = "result";
+  line.innerHTML = content;
+  return line;
 }
 
 export { processCommand };

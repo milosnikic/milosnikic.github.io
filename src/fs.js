@@ -1,3 +1,10 @@
+import {
+  BIOGRAPHY_TEXT,
+  BACHELORS_DEGREE_TEXT,
+  MASTERS_DEGREE_TEXT,
+  PROJECTS,
+} from "./constants.js";
+
 class Node {
   constructor(name, type, children = null, content = null, absolutePath = "") {
     this.name = name;
@@ -14,7 +21,7 @@ class FileSystem {
       "/",
       "directory",
       [
-        new Node("bio.txt", "file", null, "This is biography", "/bio.txt"),
+        new Node("bio.txt", "file", null, BIOGRAPHY_TEXT, "/bio.txt"),
         new Node(
           "education",
           "directory",
@@ -24,18 +31,18 @@ class FileSystem {
               "directory",
               [
                 new Node(
-                  "Bachelors Degree Faculty of organizational Sciences.txt",
+                  "Bachelor's degree Faculty of Organizational Sciences.txt",
                   "file",
                   null,
-                  "Bachelors degree",
-                  "/education/faculty/Bachelors Degree Faculty of organizational Sciences.txt"
+                  BACHELORS_DEGREE_TEXT,
+                  "/education/faculty/Bachelor's degree Faculty of Organizational Sciences.txt"
                 ),
                 new Node(
-                  "Masters Degree Faculty of organizational Sciences.txt",
+                  "Master's degree Faculty of Organizational Sciences.txt",
                   "file",
                   null,
-                  "Masters Software Engineering",
-                  "/education/faculty/Masters Degree Faculty of organizational Sciences.txt"
+                  MASTERS_DEGREE_TEXT,
+                  "/education/faculty/Master's degree Faculty of Organizational Sciences.txt"
                 ),
               ],
               null,
@@ -47,7 +54,56 @@ class FileSystem {
           "/education"
         ),
         new Node("experience", "directory", [], null, "/experience"),
-        new Node("projects", "directory", [], null, "/projects"),
+        new Node(
+          "projects",
+          "directory",
+          [
+            new Node(
+              "FootballApp.txt",
+              "file",
+              null,
+              PROJECTS.FOOTBALL_APP_TEXT,
+              "/FootballApp.txt"
+            ),
+            new Node(
+              "Battleship.txt",
+              "file",
+              null,
+              PROJECTS.BATTLESHIP_APP_TEXT,
+              "/Battleship.txt"
+            ),
+            new Node(
+              "Magicmap.txt",
+              "file",
+              null,
+              PROJECTS.MAGIC_MAP_APP_TEXT,
+              "/Magicmap.txt"
+            ),
+            new Node(
+              "Arduino Thermal System.txt",
+              "file",
+              null,
+              PROJECTS.THERMALSYSTEM_APP_TEXT,
+              "/Arduino Thermal System.txt"
+            ),
+            new Node(
+              "ASCII Art.txt",
+              "file",
+              null,
+              PROJECTS.ASCII_ART_APP_TEXT,
+              "/ASCII Art.txt"
+            ),
+            new Node(
+              "Cerberus.txt",
+              "file",
+              null,
+              PROJECTS.CERBERUS_APP_TEXT,
+              "/Cerberus.txt"
+            ),
+          ],
+          null,
+          "/projects"
+        ),
       ],
       null,
       "/"
@@ -163,6 +219,24 @@ class FileSystem {
         var parent = this.getParent(node, child);
         if (parent) {
           return parent;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  getObjectByName(name, current = this.root) {
+    if (current.name === name) {
+      return current;
+    }
+
+    for (const obj in current.children) {
+      if (Object.hasOwnProperty.call(current.children, obj)) {
+        const element = current.children[obj];
+        let result = this.getObjectByName(name, element);
+        if (result) {
+          return result;
         }
       }
     }

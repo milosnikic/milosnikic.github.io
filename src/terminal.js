@@ -3,32 +3,30 @@ import { processCommand } from "./commands.js";
 import { fileSystem } from "./fs.js";
 
 var isControlPressed = false;
+var isMetaPressed = false;
 var isAltPressed = false;
 
 document.getElementById("commands").appendChild(createNewCommandInput());
 
 addEventListener("keydown", async (event) => {
   if (IGNORE_KEYS.includes(event.key)) return;
+
   if (event.key === KEYS.ALT) {
     isAltPressed = true;
     return;
   }
-  if (event.key === KEYS.CTRL || event.key === KEYS.CMD) {
+
+  if (event.key === KEYS.CTRL) {
     isControlPressed = true;
     return;
   }
 
+  if (event.key === KEYS.CMD) {
+    isMetaPressed = true;
+    return;
+  }
+
   var input = document.getElementsByClassName("input active")[0];
-  if (isPaste(event)) {
-    input.textContent += await navigator.clipboard.readText();
-    return;
-  }
-
-  if (event.key === "k" && isControlPressed) {
-    clearTerminal();
-    return;
-  }
-
   if (event.key === KEYS.BACKSPACE) {
     if (input.textContent.length > 0) {
       var endIndex = input.textContent.length - 1;
@@ -48,9 +46,33 @@ addEventListener("keydown", async (event) => {
     return;
   }
 
-  if (event.key === KEYS.ENTER) {
-    var commands = document.getElementById("commands");
+  if (isCopy(event)) {
+    return;
+  }
 
+  if (isPaste(event)) {
+    input.textContent += await navigator.clipboard.readText();
+    return;
+  }
+
+  var commands = document.getElementById("commands");
+  if (event.key === "c" && isControlPressed) {
+    commitCommand();
+    // Creating a new line that will enable you to input new command
+    var newCommandInput = createNewCommandInput();
+
+    // Append new command lne to existing commands
+    commands.appendChild(newCommandInput);
+    scrollToBottom();
+    return;
+  }
+
+  if (event.key === "k" && isMetaPressed) {
+    clearTerminal();
+    return;
+  }
+
+  if (event.key === KEYS.ENTER) {
     // When enter is pressed, we want to remove blinking char from current line
     // enter to new row with ability to write new command
     var command = commitCommand();
@@ -79,13 +101,17 @@ addEventListener("keydown", async (event) => {
 
 addEventListener("keyup", (event) => {
   // Key releases
-  if (event.key === KEYS.CTRL || event.key === KEYS.CMD)
-    isControlPressed = false;
+  if (event.key === KEYS.CTRL) isControlPressed = false;
+  if (event.key === KEYS.CMD) isMetaPressed = false;
   if (event.key === KEYS.ALT) isAltPressed = false;
 });
 
 function isPaste(event) {
-  return event.key === "v" && isControlPressed;
+  return event.key === "v" && isMetaPressed;
+}
+
+function isCopy(event) {
+  return event.key === "c" && isMetaPressed;
 }
 
 function scrollToBottom() {

@@ -187,3 +187,7 @@ canvas {
 .result > span.directory {
   color: rgb(0, 92, 185);
 }
+
+.terminal-link {
+  color:white;
+}
