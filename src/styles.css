@@ -181,11 +181,11 @@ canvas {
   margin: 0;
   padding-left: 5px;
   font-size: small;
-  display: flex;
 }
 
 .result.history {
- flex-direction: column; 
+  display: flex;
+  flex-direction: column; 
 }
 
 .result > span {
