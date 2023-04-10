@@ -42,6 +42,23 @@ canvas {
   opacity: 70%;
 }
 
+#typewriter-text {
+  font-size: 24px;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 2s steps(40) 1s 1 normal both;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 .footer {
   position: fixed;
   left: 0;
@@ -55,6 +72,10 @@ canvas {
 .footer-light-theme {
   background: linear-gradient(to top, rgba(255,255,255, 1),rgba(255,255,255, 0.8), rgba(0, 0, 0, 0)) !important;
   color: white;
+}
+
+.footer > a {
+  text-decoration: none;
 }
 
 .social-icon {

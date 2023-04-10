@@ -92,4 +92,19 @@ toggleSwitch.addEventListener("change", (event) => {
   }
 });
 
+const typewriter = (text, i = 0) => {
+  const container = document.getElementById("typewriter-text");
+  container.textContent = text.substring(0, i);
+  if (i < text.length) {
+    setTimeout(
+      () => typewriter(text, i + 1),
+      Math.floor(Math.random() * (80 - 60) + 60)
+    );
+  } else {
+    setTimeout(() => typewriter(text, 0), 15000);
+  }
+};
+
+typewriter("milOS CLI: Streamline Your Skills");
+
 export { loop };
