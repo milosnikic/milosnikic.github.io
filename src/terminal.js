@@ -1,7 +1,7 @@
 import { IGNORE_KEYS, KEYS, BLINK_CHARACTER, HOST } from "./constants.js";
 import {
   processCommand,
-  history,
+  commandsHistory as history,
   historyIndex,
   incrementHistoryIndex,
   decrementHistoryIndex,

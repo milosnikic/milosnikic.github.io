@@ -1,6 +1,8 @@
 import { distance, createDrops } from "./utils.js";
+import { processCommand, darkTheme } from "./commands.js";
 
 // This module is used to draw matrix characters drop
+// and manipulate site theme
 
 // First we will create canvas that will be full screen
 /** @type {HTMLCanvasElement} */
@@ -14,7 +16,7 @@ var drops = createDrops();
 
 function draw(drops) {
   // Draw black background
-  ctx.fillStyle = "#000";
+  ctx.fillStyle = darkTheme ? "#000" : "#fff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   // Draw drops
   for (let i = 0; i < drops.length; i++) {
@@ -76,6 +78,18 @@ function moveDropsAccordingToCursor(event) {
 
 addEventListener("mousemove", (event) => {
   moveDropsAccordingToCursor(event);
+});
+
+const toggleSwitch = document.getElementById("theme-toggle");
+
+toggleSwitch.addEventListener("change", (event) => {
+  if (event.target.checked) {
+    // Dark theme
+    processCommand(`theme light`);
+  } else {
+    // Light theme
+    processCommand(`theme dark`);
+  }
 });
 
 export { loop };

@@ -3,6 +3,7 @@ import { fileSystem } from "./fs.js";
 
 var commandsHistory = [];
 var historyIndex = 0;
+var darkTheme = true;
 
 function processCommand(cmd) {
   commandsHistory.push(cmd);
@@ -23,6 +24,8 @@ function processCommand(cmd) {
       return help();
     case "history":
       return history();
+    case "theme":
+      return theme(args);
     default:
       return createNewResultLine(
         `Command not found: "${command}". Type "help" for more information.`
@@ -110,7 +113,7 @@ function help() {
 
     var description = document.createElement("span");
     description.className += "command-description";
-    description.textContent = `${value.description}`;
+    description.textContent = `${value.shortDescription}`;
 
     span.appendChild(command);
     span.appendChild(dash);
@@ -142,6 +145,42 @@ function createNewResultLine(content) {
   return line;
 }
 
+function theme(args) {
+  args = args.toLowerCase();
+  if (!["dark", "light"].includes(args)) {
+    return createNewResultLine(
+      `There are only 2 themes "dark" and "light". Type "help" for more information.`
+    );
+  }
+
+  if ((darkTheme && args === "dark") || (!darkTheme && args === "light")) {
+    return;
+  }
+
+  let navbar = document.getElementById("navbar");
+  navbar.classList.toggle("navbar-light-theme");
+
+  let heading = document.getElementById("heading");
+  heading.classList.toggle("light-theme");
+
+  let footer = document.getElementById("footer");
+  footer.classList.toggle("footer-light-theme");
+
+  let socialIcons = document.getElementsByClassName("social-icon");
+  for (const index in socialIcons) {
+    if (Object.hasOwnProperty.call(socialIcons, index)) {
+      const icon = socialIcons[index];
+      icon.src = icon.src.replace(
+        darkTheme ? "white" : "black",
+        darkTheme ? "black" : "white"
+      );
+    }
+  }
+
+  document.getElementById("theme-toggle").checked = darkTheme;
+  darkTheme = !darkTheme;
+}
+
 export function incrementHistoryIndex() {
   historyIndex++;
 }
@@ -150,4 +189,4 @@ export function decrementHistoryIndex() {
   historyIndex--;
 }
 
-export { processCommand, history, historyIndex };
+export { processCommand, commandsHistory, historyIndex, darkTheme };

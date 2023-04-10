@@ -22,10 +22,20 @@ canvas {
     text-align: center;
   }
 
+.navbar-light-theme {
+  background: linear-gradient(to bottom, rgba(255,255,255, 1),rgba(255,255,255, 0.8), rgba(0, 0, 0, 0)) !important;
+}
+
 .navbar a {
     color: white;
     text-decoration: none;
     font-size: x-large;
+}
+
+.navbar a.light-theme {
+  color:black !important;
+  text-decoration: none;
+  font-size: x-large;
 }
 
 .navbar a:hover {
@@ -42,6 +52,11 @@ canvas {
   text-align: center;
 }
   
+.footer-light-theme {
+  background: linear-gradient(to top, rgba(255,255,255, 1),rgba(255,255,255, 0.8), rgba(0, 0, 0, 0)) !important;
+  color: white;
+}
+
 .social-icon {
   opacity: 70%;
   width: 42px;
@@ -207,7 +222,7 @@ canvas {
 
 .help-commands {
   display: flex;
-  align-items: center;
+  align-items: start;
 }
 
 .help-command {
@@ -221,4 +236,69 @@ canvas {
 }
 .command-description {
   text-align: justify;
+}
+
+/* Dark/Light Theme Toggle */
+.switch-container {
+  position: absolute;
+  top: 0;
+  display: flex;
+  right: 0;
+  align-items: center;
+  padding: 10px;
+  justify-content: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 0 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #757575;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #ffffff;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #aaf321;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #aed7f9;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Icons */
+img.themes {
+  width: 24px;
+  margin-right: 5px;
 }

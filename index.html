@@ -9,11 +9,19 @@
     <link rel="icon" type="image/x-icon" href="./src/images/favicon.png" />
   </head>
   <body>
-    <div class="navbar">
-      <a href="#home">
+    <div class="navbar" id="navbar">
+      <a href="#home" id="heading">
         <span>milOS CLI: Streamline Your Skills</span>
         ><span class="blink">_</span>
       </a>
+      <div class="switch-container">
+        <img src="./src/images/moon.png" alt="" class="themes" />
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider"></span>
+        </label>
+        <img src="./src/images/sun.png" alt="" class="themes" />
+      </div>
     </div>
     <canvas id="canvas"> </canvas>
     <div class="terminal">
@@ -29,7 +37,7 @@
         <ul id="commands" class="commands"></ul>
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" id="footer">
       <a
         href="https://github.com/milosnikic/milosnikic.github.io"
         target="_blank"

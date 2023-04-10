@@ -85,32 +85,28 @@ const PROJECTS = {
 
 const COMMANDS = {
   ls: {
-    args: true,
-    description: "Used to list content of directory",
+    shortDescription: "Used to list content of directory",
   },
   cd: {
-    args: true,
-    description: "Used to change directory",
+    shortDescription: "Used to change directory",
   },
   pwd: {
-    args: false,
-    description: "Prints path of current working directory",
+    shortDescription: "Prints path of current working directory",
   },
   clear: {
-    args: false,
-    description: "Clears current terminal window",
+    shortDescription: "Clears current terminal window",
   },
   cat: {
-    args: true,
-    description: "Displays content of the file specified",
+    shortDescription: "Displays content of the file specified",
   },
   history: {
-    args: false,
-    description: "Displays all previously called commands",
+    shortDescription: "Displays all previously called commands",
   },
   help: {
-    args: false,
-    description: "Displays all possible commands with their description",
+    shortDescription: "Displays all possible commands with their description",
+  },
+  theme: {
+    shortDescription: "Allows user to set preferred theme",
   },
 };
 
