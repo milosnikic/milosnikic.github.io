@@ -60,7 +60,7 @@ function ls(args) {
 }
 
 function cd(args) {
-  if (!fileSystem.changeDirectory(args))
+  if (!args || !fileSystem.changeDirectory(args))
     return createNewResultLine(`Cannot find path "${args}".`);
 }
 
