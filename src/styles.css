@@ -199,3 +199,26 @@ canvas {
 .terminal-link {
   color:white;
 }
+
+.result.help {
+  display: flex;
+  flex-direction: column; 
+}
+
+.help-commands {
+  display: flex;
+  align-items: center;
+}
+
+.help-command {
+  padding-left: 20px;
+  display: flex;
+  justify-content: left;
+}
+.dash {
+  padding-left: 15px;
+  padding-right: 10px;
+}
+.command-description {
+  text-align: justify;
+}

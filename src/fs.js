@@ -48,7 +48,6 @@ class FileSystem {
               null,
               "/education/faculty"
             ),
-            new Node("udemy", "directory", [], null, "/education/udemy"),
           ],
           null,
           "/education"
@@ -99,6 +98,13 @@ class FileSystem {
               null,
               PROJECTS.CERBERUS_APP_TEXT,
               "/Cerberus.txt"
+            ),
+            new Node(
+              "Carvana.txt",
+              "file",
+              null,
+              PROJECTS.CARVANA_ML_TEXT,
+              "/Carvana.txt"
             ),
           ],
           null,

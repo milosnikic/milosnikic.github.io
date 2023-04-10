@@ -77,6 +77,45 @@ const PROJECTS = {
     Application is gathering information from multiple platforms in order to display relevant information about players.\
     Developed using Python, Django, Redis and React.<br><br>\
     <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/cerberus">Visit repository</a></span>',
+  CARVANA_ML_TEXT:
+    '<span>Machine learning project which goal is to determine whether a car is a good or bad buy based\
+    on a multiple characteristics.<br><br>\
+    <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/Carvana">Visit repository</a></span>',
+};
+
+const COMMANDS = {
+  ls: {
+    args: true,
+    description: "Used to list content of directory",
+  },
+  cd: {
+    args: true,
+    description: "Used to change directory",
+  },
+  pwd: {
+    args: false,
+    description: "Prints path of current working directory",
+  },
+  clear: {
+    args: false,
+    description: "Clears current terminal window",
+  },
+  cat: {
+    args: true,
+    description: "Displays content of the file specified",
+  },
+  history: {
+    args: false,
+    description: "Displays all previously called commands",
+  },
+  help: {
+    args: false,
+    description: "Displays all possible commands with their description",
+  },
+};
+
+const MESSAGES = {
+  HELP_MESSAGE: 'Type "help" for more information.',
 };
 
 export {
@@ -88,4 +127,6 @@ export {
   MASTERS_DEGREE_TEXT,
   BACHELORS_DEGREE_TEXT,
   PROJECTS,
+  COMMANDS,
+  MESSAGES,
 };

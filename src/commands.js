@@ -1,3 +1,4 @@
+import { COMMANDS } from "./constants.js";
 import { fileSystem } from "./fs.js";
 
 var commandsHistory = [];
@@ -69,21 +70,56 @@ function clear() {
 }
 
 function cat(args) {
+  if (!args) {
+    return createNewResultLine(
+      `You have to provide additional arguments. Type "help" for more information.`
+    );
+  }
+
   const object = fileSystem.getObjectByName(args);
   if (!object) {
-    return createNewResultLine(`Unknown object "${args}".`);
+    return createNewResultLine(
+      `Unknown object "${args}". Type "help" for more information.`
+    );
   }
 
   if (object.type === "directory") {
     return createNewResultLine(
-      `Cannot cat a "${args}" since it is a directory.`
+      `Cannot "cat" a "${args}" since it is a directory. Type "help" for more information.c`
     );
   }
 
   return createNewResultLine(object.content);
 }
 
-function help() {}
+function help() {
+  var content = createNewResultLine("");
+  content.className += " help";
+  content.textContent += "List of all available commands:";
+  for (const [key, value] of Object.entries(COMMANDS)) {
+    var span = document.createElement("span");
+    span.className += "help-commands";
+
+    var command = document.createElement("span");
+    command.className += "help-command";
+    command.textContent = `${key}`;
+
+    var dash = document.createElement("span");
+    dash.className += "dash";
+    dash.textContent = `-`;
+
+    var description = document.createElement("span");
+    description.className += "command-description";
+    description.textContent = `${value.description}`;
+
+    span.appendChild(command);
+    span.appendChild(dash);
+    span.appendChild(description);
+    content.appendChild(span);
+  }
+
+  return content;
+}
 
 function history() {
   let content = createNewResultLine("");
