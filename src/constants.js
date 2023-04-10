@@ -84,34 +84,16 @@ const PROJECTS = {
 };
 
 const COMMANDS = {
-  ls: {
-    shortDescription: "Used to list content of directory",
-  },
-  cd: {
-    shortDescription: "Used to change directory",
-  },
-  pwd: {
-    shortDescription: "Prints path of current working directory",
-  },
-  clear: {
-    shortDescription: "Clears current terminal window",
-  },
-  cat: {
-    shortDescription: "Displays content of the file specified",
-  },
-  history: {
-    shortDescription: "Displays all previously called commands",
-  },
+  ls: { shortDescription: "Used to list content of directory" },
+  cd: { shortDescription: "Used to change directory" },
+  pwd: { shortDescription: "Prints path of current working directory" },
+  clear: { shortDescription: "Clears current terminal window" },
+  cat: { shortDescription: "Displays content of the file specified" },
+  history: { shortDescription: "Displays all previously called commands" },
   help: {
     shortDescription: "Displays all possible commands with their description",
   },
-  theme: {
-    shortDescription: "Allows user to set preferred theme",
-  },
-};
-
-const MESSAGES = {
-  HELP_MESSAGE: 'Type "help" for more information.',
+  theme: { shortDescription: "Allows user to set preferred theme" },
 };
 
 export {
@@ -124,5 +106,4 @@ export {
   BACHELORS_DEGREE_TEXT,
   PROJECTS,
   COMMANDS,
-  MESSAGES,
 };
