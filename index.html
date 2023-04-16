@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>milOS CLI</title>
-    <link rel="stylesheet" href="./src/styles.css" />
-    <link rel="icon" type="image/x-icon" href="./src/images/favicon.png" />
+    <link rel="stylesheet" href="./src/css/styles.css" />
+    <link rel="icon" type="image/x-icon" href="./src/img/favicon.png" />
   </head>
   <body>
     <div class="navbar" id="navbar">
@@ -15,12 +15,12 @@
         ><span class="blink">_</span>
       </a>
       <div class="switch-container">
-        <img src="./src/images/moon.png" alt="" class="themes" />
+        <img src="./src/img/moon.png" alt="" class="themes" />
         <label class="switch">
           <input type="checkbox" id="theme-toggle" />
           <span class="slider"></span>
         </label>
-        <img src="./src/images/sun.png" alt="" class="themes" />
+        <img src="./src/img/sun.png" alt="" class="themes" />
       </div>
     </div>
     <canvas id="canvas"> </canvas>
@@ -42,28 +42,20 @@
         href="https://github.com/milosnikic/milosnikic.github.io"
         target="_blank"
       >
-        <img class="social-icon" src="./src/images/gh-white.svg" alt="Github" />
+        <img class="social-icon" src="./src/img/gh-white.svg" alt="Github" />
       </a>
       <a
         href="https://www.linkedin.com/in/milo%C5%A1-niki%C4%87-a14a56160/"
         target="_blank"
       >
-        <img
-          class="social-icon"
-          src="./src/images/li-white.svg"
-          alt="Linkedin"
-        />
+        <img class="social-icon" src="./src/img/li-white.svg" alt="Linkedin" />
       </a>
       <a href="https://twitter.com/EXR1G" target="_blank">
-        <img
-          class="social-icon"
-          src="./src/images/tw-white.svg"
-          alt="Twitter"
-        />
+        <img class="social-icon" src="./src/img/tw-white.svg" alt="Twitter" />
       </a>
     </div>
-    <script type="module" src="./src/main.js"></script>
-    <script type="module" src="./src/terminal.js"></script>
-    <script type="module" src="./src/fs.js"></script>
+    <script type="module" src="./dist/src/js/main.js"></script>
+    <script type="module" src="./dist/src/js/terminal.js"></script>
+    <script type="module" src="./dist/src/js/fs.js"></script>
   </body>
 </html>

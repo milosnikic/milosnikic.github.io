@@ -1,5 +1,5 @@
-![milOS CLI](./src/images/milOS.png)
-![terminal](./src/images/terminal.png)
+![milOS CLI](./src/img/milOS.png)
+![terminal](./src/img/terminal.png)
 
 ## Badges
 
