@@ -1,7 +1,7 @@
-import { Terminal } from "../../src/js/terminal.js";
+import { Terminal } from "../src/js/terminal.js";
 import jsdom from "jsdom";
 const { JSDOM } = jsdom;
-import { Cd, Command } from "../../src/js/commands.js";
+import { Cd, Pwd } from "../src/js/commands.js";
 
 describe("Terminal", function () {
   let terminal = new Terminal([], 0, true);
@@ -13,10 +13,13 @@ describe("Terminal", function () {
     global.document = dom.window.document;
 
     it("should return that command is not found", function () {
+      const commandsHistoryLength = Terminal.commandsHistory.length;
       const result: HTMLLIElement = terminal.processInput(
         "echo 'Hello'"
       ) as HTMLLIElement;
 
+      expect(terminal.historyIndex).toBe(0);
+      expect(Terminal.commandsHistory.length).toBe(commandsHistoryLength + 1);
       expect(result.innerHTML).toBe(
         'Command not found: "echo". Type "help" for more information.'
       );
@@ -24,12 +27,24 @@ describe("Terminal", function () {
 
     it("should execute command with arguments", function () {
       terminal.command = cd;
+      terminal.args = "education";
       const spy = spyOn(cd, "execute");
 
       terminal.execute();
 
       expect(spy).toHaveBeenCalled();
       expect(spy).toHaveBeenCalledWith("education");
+    });
+
+    it("should execute command without arguments", function () {
+      const pwd = new Pwd("pwd");
+      terminal.command = pwd;
+      terminal.args = "education";
+      const spy = spyOn(pwd, "execute");
+
+      terminal.execute();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 

@@ -11,6 +11,7 @@ class Node {
   children: null | Node[];
   content: null | string;
   absolutePath: string;
+
   constructor(
     name: string,
     type: string,

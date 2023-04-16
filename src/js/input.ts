@@ -9,6 +9,7 @@ export class InputProcessor {
   isAltPressed: boolean = false;
   commandsElement: HTMLElement;
   terminal: Terminal;
+  input: null | HTMLLIElement;
 
   constructor() {
     this.isControlPressed = false;
@@ -19,6 +20,7 @@ export class InputProcessor {
     this.terminal = new Terminal([], 0, true);
     this.addKeydownListener();
     this.addKeyupListener();
+    this.input = null;
   }
 
   addKeydownListener() {
@@ -27,7 +29,6 @@ export class InputProcessor {
 
   addKeyupListener() {
     addEventListener("keyup", (event) => {
-      // Key releases
       if (event.key === KEYS.CTRL) this.isControlPressed = false;
       if (event.key === KEYS.CMD) this.isMetaPressed = false;
       if (event.key === KEYS.ALT) this.isAltPressed = false;
@@ -52,56 +53,22 @@ export class InputProcessor {
       return;
     }
 
-    var input = document.getElementsByClassName(
+    this.input = document.getElementsByClassName(
       "input active"
     )[0] as HTMLLIElement;
+
     if (event.key === KEYS.BACKSPACE) {
-      if (input.textContent!.length > 0) {
-        var endIndex = input.textContent!.length - 1;
-        if (this.isAltPressed) {
-          // We want to delete whole words when alt and backspace are pressed together
-          // Find either dot or whitespace and delete content until that character
-          // If there is no such character it means that we are left with one word,
-          // and the whole content should be deleted
-          const lastIndex = Math.max(
-            input.textContent!.lastIndexOf(" "),
-            input.textContent!.lastIndexOf(".")
-          );
-          endIndex = lastIndex !== -1 ? lastIndex : 0;
-        }
-        input.textContent = input.textContent!.slice(0, endIndex);
-      }
-      return;
+      return this.handleDelete();
     }
 
-    if (event.key === "ArrowUp") {
+    if (event.key === KEYS.ARROW_UP) {
       event.preventDefault();
-      if (Terminal.getCommandsHistory().length > 0) {
-        let previous =
-          Terminal.getCommandsHistory().length -
-          1 -
-          this.terminal.getHistoryIndex();
-        if (previous < 0) {
-          return;
-        }
-        this.terminal.incrementHistoryIndex();
-        input.textContent = Terminal.getCommandsHistory()[previous];
-        return;
-      }
+      return this.getPreviousFromHistory();
     }
 
-    if (event.key === "ArrowDown") {
+    if (event.key === KEYS.ARROW_DOWN) {
       event.preventDefault();
-      if (Terminal.getCommandsHistory().length > 0) {
-        let next =
-          Terminal.getCommandsHistory().length - this.terminal.historyIndex + 1;
-        if (next > Terminal.getCommandsHistory().length) {
-          return;
-        }
-        this.terminal.decrementHistoryIndex();
-        input.textContent = Terminal.getCommandsHistory()[next];
-        return;
-      }
+      return this.getNextFromHistory();
     }
 
     if (this.isCopy(event)) {
@@ -109,58 +76,93 @@ export class InputProcessor {
     }
 
     if (this.isPaste(event)) {
-      input.textContent += await navigator.clipboard.readText();
-      return;
+      return await this.pasteFromClipboard();
     }
 
     if (event.key === "c" && this.isControlPressed) {
       commitCommand();
-      // Creating a new line that will enable you to input new command
-      var newCommandInput = createNewCommandInput();
-
-      // Append new command lne to existing commands
-      this.commandsElement.appendChild(newCommandInput);
-      scrollToBottom();
-      return;
+      return this.createNewCommandInput();
     }
 
     if (event.key === "k" && this.isMetaPressed) {
-      clearTerminal();
-      return;
+      return clearTerminal();
     }
 
     if (event.key === KEYS.ENTER) {
-      // When enter is pressed, we want to remove blinking char from current line
-      // enter to new row with ability to write new command
-      var command = commitCommand();
-
-      // Here we need to process input
-      // and append row as response
-      if (command !== "") {
-        var content = this.terminal.processInput(command);
-        if (content) {
-          this.commandsElement.appendChild(content);
-        }
-      }
-
-      // Creating a new line that will enable you to input new command
-      var newCommandInput = createNewCommandInput();
-
-      // Append new command lne to existing commands
-      this.commandsElement.appendChild(newCommandInput);
-      scrollToBottom();
-      return;
+      return this.processCommand();
     }
 
     scrollToBottom();
-    input.textContent += event.key;
+    this.input.textContent += event.key;
   }
 
-  isPaste(event: KeyboardEvent) {
+  private handleDelete() {
+    if (this.input!.textContent!.length > 0) {
+      var endIndex = this.input!.textContent!.length - 1;
+      if (this.isAltPressed) {
+        const lastIndex = Math.max(
+          this.input!.textContent!.lastIndexOf(" "),
+          this.input!.textContent!.lastIndexOf(".")
+        );
+        endIndex = lastIndex !== -1 ? lastIndex : 0;
+      }
+      this.input!.textContent = this.input!.textContent!.slice(0, endIndex);
+    }
+  }
+
+  private getPreviousFromHistory() {
+    const commandsHistory = Terminal.getCommandsHistory();
+    if (commandsHistory.length > 0) {
+      let previous =
+        commandsHistory.length - 1 - this.terminal.getHistoryIndex();
+      if (previous < 0) {
+        return;
+      }
+      this.terminal.incrementHistoryIndex();
+      this.input!.textContent = commandsHistory[previous];
+    }
+  }
+
+  private getNextFromHistory() {
+    const commandsHistory = Terminal.getCommandsHistory();
+    if (commandsHistory.length > 0) {
+      let next = commandsHistory.length - this.terminal.historyIndex + 1;
+      if (next > commandsHistory.length) {
+        return;
+      }
+      this.terminal.decrementHistoryIndex();
+      this.input!.textContent = commandsHistory[next];
+    }
+  }
+
+  private isPaste(event: KeyboardEvent) {
     return event.key === "v" && this.isMetaPressed;
   }
 
-  isCopy(event: KeyboardEvent) {
+  private isCopy(event: KeyboardEvent) {
     return event.key === "c" && this.isMetaPressed;
+  }
+
+  private async pasteFromClipboard() {
+    this.input!.textContent += await navigator.clipboard.readText();
+  }
+
+  private processCommand() {
+    var command = commitCommand();
+
+    if (command !== "") {
+      var content = this.terminal.processInput(command);
+      if (content) {
+        this.commandsElement.appendChild(content);
+      }
+    }
+
+    this.createNewCommandInput();
+  }
+
+  private createNewCommandInput() {
+    var newCommandInput = createNewCommandInput();
+    this.commandsElement.appendChild(newCommandInput);
+    scrollToBottom();
   }
 }

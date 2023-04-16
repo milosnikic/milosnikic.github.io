@@ -192,6 +192,6 @@ export class Theme extends Command {
     const element: HTMLElement | null = document.getElementById("theme-toggle");
     const themeToggle = element as HTMLInputElement;
     themeToggle.checked = darkTheme;
-    Terminal.setTheme(!darkTheme);
+    Terminal.setIsDarkTheme(!darkTheme);
   }
 }

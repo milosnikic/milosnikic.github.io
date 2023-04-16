@@ -39,8 +39,8 @@ class Terminal {
       new Theme("theme", true),
     ];
     this.command = null;
-    this.args = null;
     this.commandName = "";
+    this.args = null;
   }
 
   processInput(input: string) {
@@ -100,7 +100,7 @@ class Terminal {
     return this.darkTheme;
   }
 
-  static setTheme(isDark: boolean) {
+  static setIsDarkTheme(isDark: boolean) {
     this.darkTheme = isDark;
   }
 

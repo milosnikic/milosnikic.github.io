@@ -55,7 +55,7 @@ export class UserInterface {
     this.ctx.fillText(drop.text, drop.x, drop.y);
   }
 
-  moveDropsAccordingToCursor(event: MouseEvent) {
+  private moveDropsAccordingToCursor(event: MouseEvent) {
     const mouseX = event.clientX;
     const mouseY = event.clientY;
     for (let i = 0; i < this.drops.length; i++) {
@@ -85,13 +85,13 @@ export class UserInterface {
   private setTheme(event: Event) {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
-      Terminal.setTheme(false);
+      Terminal.setIsDarkTheme(false);
     } else {
-      Terminal.setTheme(true);
+      Terminal.setIsDarkTheme(true);
     }
   }
 
-  typewrite(text: string, i: number = 0) {
+  private typewrite(text: string, i: number = 0) {
     const container = document.getElementById("typewriter-text");
     container!.textContent = text.substring(0, i);
     if (i < text.length) {
