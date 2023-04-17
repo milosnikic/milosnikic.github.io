@@ -5,6 +5,7 @@
   "main": "y",
   "scripts": {
     "test": "tsc && jasmine",
+    "test-ci": "jasmine",
     "build": "tsc",
     "tsc-init": "tsc --init"
   },
