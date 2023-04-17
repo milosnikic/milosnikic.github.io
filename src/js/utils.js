@@ -1,5 +1,6 @@
 import { HOST, BLINK_CHARACTER } from "./constants.js";
 import { fileSystem } from "./fs.js";
+import { terminal } from "./terminal.js";
 export function distance(x, y, collX, collY) {
     return Math.sqrt(Math.pow(Math.abs(collX - x), 2) + Math.pow(Math.abs(collY - y), 2));
 }
@@ -76,4 +77,25 @@ export function createNewResultLine(content) {
     line.className = "result";
     line.innerHTML = content || "";
     return line;
+}
+export function changeTheme() {
+    let navbar = document.getElementById("navbar");
+    navbar.classList.toggle("navbar-light-theme");
+    let heading = document.getElementById("heading");
+    heading.classList.toggle("light-theme");
+    let footer = document.getElementById("footer");
+    footer.classList.toggle("footer-light-theme");
+    let socialIcons = document.getElementsByClassName("social-icon");
+    const darkTheme = terminal.isDarkTheme();
+    for (const index in socialIcons) {
+        if (Object.hasOwnProperty.call(socialIcons, index)) {
+            const element = socialIcons[index];
+            const icon = element;
+            icon.src = icon.src.replace(darkTheme ? "white" : "black", darkTheme ? "black" : "white");
+        }
+    }
+    const element = document.getElementById("theme-toggle");
+    const themeToggle = element;
+    themeToggle.checked = darkTheme;
+    terminal.setIsDarkTheme(!darkTheme);
 }

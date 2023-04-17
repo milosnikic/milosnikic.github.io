@@ -1,5 +1,5 @@
 import { BIOGRAPHY_TEXT, BACHELORS_DEGREE_TEXT, MASTERS_DEGREE_TEXT, PROJECTS, } from "./constants.js";
-class Node {
+export class Node {
     constructor(name, type, children = null, content = null, absolutePath = "") {
         this.name = name;
         this.type = type;
@@ -31,40 +31,48 @@ export class FileSystem {
         ], null, "/");
         this.currentWorkingDirectory = this.root;
     }
-    changeDirectory(destination) {
-        var directories = [];
-        if (destination === "/") {
-            this.currentWorkingDirectory = this.root;
-            return true;
-        }
-        // Remove trailing /
-        if (destination[destination.length - 1] == "/") {
-            destination = destination.slice(0, destination.length - 1);
-        }
-        // Shortcut
-        if (destination === "..") {
-            var parent = this.getParent(this.currentWorkingDirectory);
-            if (parent) {
-                this.currentWorkingDirectory = parent;
-                return true;
-            }
+    changeDirectory(path) {
+        const directory = this.resolve(path);
+        if (!directory || directory.type === "file") {
             return false;
         }
-        // Absolute
-        if (destination.startsWith("/")) {
-            destination = destination.slice(1, destination.length);
-            directories = destination.split("/");
-            return this.changeDir(directories, this.root);
+        this.currentWorkingDirectory = directory;
+        return true;
+    }
+    resolve(path) {
+        // Root
+        if (path === "/") {
+            return this.root;
         }
-        // Relative
-        if (destination.startsWith("./")) {
-            destination = destination.slice(2, destination.length);
-            directories = destination.split("/");
-            return this.changeDir(directories, this.currentWorkingDirectory);
+        // Remove trailing /
+        if (path[path.length - 1] == "/") {
+            path = path.slice(0, path.length - 1);
+        }
+        // Shortcut
+        if (path === "..") {
+            var parent = this.getParent(this.currentWorkingDirectory);
+            if (parent) {
+                return parent;
+            }
+            return null;
+        }
+        // Absolute path
+        //
+        // Example: /projects/Carvana.txt
+        if (path.startsWith("/")) {
+            return this.resolvePath(path.slice(1, path.length).split("/"), this.root);
+        }
+        // Relative path
+        //
+        // Example: ./education
+        if (path.startsWith("./")) {
+            return this.resolvePath(path.slice(2, path.length).split("/"), this.currentWorkingDirectory);
         }
         // Relative to parent
-        if (destination.startsWith("../")) {
-            directories = destination.split("/");
+        //
+        // Example: ../experience
+        if (path.startsWith("../")) {
+            let directories = path.split("/");
             let child = this.currentWorkingDirectory;
             // We need to replace each double dot with corresponding parent
             // and at the and we check if we can reach from last parent
@@ -79,32 +87,33 @@ export class FileSystem {
                             continue;
                         }
                         else {
-                            return false;
+                            return null;
                         }
                     }
                 }
             }
             const current = child.children.find((f) => f.name === directories[directories.length - 1]);
             if (current !== undefined) {
-                this.currentWorkingDirectory = current;
-                return true;
+                return current;
             }
-            return false;
+            return null;
         }
-        return this.changeDir(destination.split("/"), this.currentWorkingDirectory);
+        // Basic path
+        //
+        // Example: education/faculty
+        return this.resolvePath(path.split("/"), this.currentWorkingDirectory);
     }
-    changeDir(directories, origin) {
+    resolvePath(directories, origin) {
         var directoryIndex = 0;
         var destination = origin;
         while (directoryIndex < directories.length) {
             destination = destination.children.find((c) => c.name === directories[directoryIndex]);
-            if (!destination || destination.type === "file") {
-                return false;
+            if (!destination) {
+                return null;
             }
             directoryIndex++;
         }
-        this.currentWorkingDirectory = destination;
-        return true;
+        return destination;
     }
     getParent(node, current = this.root) {
         if (node === this.root) {
@@ -139,6 +148,23 @@ export class FileSystem {
             }
         }
         return null;
+    }
+    listCurrentWorkingDirectory() {
+        return this.listDirectory(this.currentWorkingDirectory);
+    }
+    listDirectoryPath(path) {
+        const directory = this.resolve(path);
+        if (!directory || directory.type === "file") {
+            return null;
+        }
+        return this.listDirectory(directory);
+    }
+    listDirectory(directory) {
+        let nodes = [];
+        for (let index = 0; index < directory.children.length; index++) {
+            nodes.push(directory.children[index]);
+        }
+        return nodes;
     }
 }
 var fileSystem = new FileSystem();

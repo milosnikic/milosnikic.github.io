@@ -1,30 +1,39 @@
 import { fileSystem } from "./fs.js";
 import { COMMANDS } from "./constants.js";
-import { Terminal } from "./terminal.js";
-import { createNewResultLine } from "./utils.js";
+import { terminal } from "./terminal.js";
+import { createNewResultLine, changeTheme } from "./utils.js";
 export class Command {
-    constructor(name, args = false) {
+    constructor(name, args = false, mandatoryArgs = false) {
+        this.arguments = "";
         this.name = name;
-        this.args = args;
+        this.hasArguments = args;
+        this.areArgumentsMandatory = mandatoryArgs;
     }
-    toString(args) {
-        if (this.args) {
-            if (typeof args === "string")
-                return `${this.name} ${args}`;
-            if (Array.isArray(args))
-                return `${this.name} ${args.join(" ")}`;
+    toString() {
+        if (this.hasArguments) {
+            return `${this.name} ${this.arguments}`;
         }
         return this.name;
     }
 }
 export class Ls extends Command {
-    execute(args) {
+    execute() {
         var content = createNewResultLine("");
         if (!fileSystem.currentWorkingDirectory.children) {
             return content;
         }
-        for (let index = 0; index < fileSystem.currentWorkingDirectory.children.length; index++) {
-            const element = fileSystem.currentWorkingDirectory.children[index];
+        let nodes = null;
+        if (this.arguments) {
+            nodes = fileSystem.listDirectoryPath(this.arguments);
+        }
+        else {
+            nodes = fileSystem.listCurrentWorkingDirectory();
+        }
+        if (!nodes) {
+            return createNewResultLine(`Cannot list directory with specified arguments: ${this.arguments}. Type "help" for more information.`);
+        }
+        for (let index = 0; index < nodes.length; index++) {
+            const element = nodes[index];
             var span = document.createElement("span");
             span.textContent = element.name;
             span.className = element.type;
@@ -34,39 +43,41 @@ export class Ls extends Command {
     }
 }
 export class Cd extends Command {
-    execute(args) {
-        if (!args || Array.isArray(args) || !fileSystem.changeDirectory(args))
-            return createNewResultLine(`Cannot find path "${args}".`);
+    execute() {
+        if (!this.arguments ||
+            Array.isArray(this.arguments) ||
+            !fileSystem.changeDirectory(this.arguments))
+            return createNewResultLine(`Cannot find path "${this.arguments}".`);
         return createNewResultLine("");
     }
 }
 export class Pwd extends Command {
-    execute(args) {
+    execute() {
         return createNewResultLine(fileSystem.currentWorkingDirectory.absolutePath);
     }
 }
 export class Clear extends Command {
-    execute(args) {
+    execute() {
         document.getElementById("commands").innerHTML = "";
     }
 }
 export class Cat extends Command {
-    execute(args) {
-        if (!args || Array.isArray(args)) {
+    execute() {
+        if (!this.arguments || Array.isArray(this.arguments)) {
             return createNewResultLine(`You have to provide additional arguments. Type "help" for more information.`);
         }
-        const object = fileSystem.getObjectByName(args);
+        const object = fileSystem.getObjectByName(this.arguments);
         if (!object) {
-            return createNewResultLine(`Unknown object "${args}". Type "help" for more information.`);
+            return createNewResultLine(`Unknown object "${this.arguments}". Type "help" for more information.`);
         }
         if (object.type === "directory") {
-            return createNewResultLine(`Cannot "cat" a "${args}" since it is a directory. Type "help" for more information.c`);
+            return createNewResultLine(`Cannot "cat" a "${this.arguments}" since it is a directory. Type "help" for more information.c`);
         }
         return createNewResultLine(object.content);
     }
 }
 export class Help extends Command {
-    execute(args) {
+    execute() {
         var content = createNewResultLine("");
         content.className += " help";
         content.textContent += "List of all available commands:";
@@ -91,10 +102,10 @@ export class Help extends Command {
     }
 }
 export class History extends Command {
-    execute(args) {
+    execute() {
         let content = createNewResultLine("");
         content.className += " history";
-        const commandsHistory = Terminal.getCommandsHistory();
+        const commandsHistory = terminal.getCommandsHistory();
         for (const cmd in commandsHistory) {
             if (Object.hasOwnProperty.call(commandsHistory, cmd)) {
                 const element = commandsHistory[cmd];
@@ -107,30 +118,12 @@ export class History extends Command {
     }
 }
 export class Theme extends Command {
-    execute(args) {
-        if (Array.isArray(args) ||
-            !args ||
-            !["dark", "light"].includes(args.toLocaleLowerCase())) {
+    execute() {
+        if (Array.isArray(this.arguments) ||
+            !this.arguments ||
+            !["dark", "light"].includes(this.arguments.toLocaleLowerCase())) {
             return createNewResultLine(`There are only 2 themes "dark" and "light". Type "help" for more information.`);
         }
-        let navbar = document.getElementById("navbar");
-        navbar.classList.toggle("navbar-light-theme");
-        let heading = document.getElementById("heading");
-        heading.classList.toggle("light-theme");
-        let footer = document.getElementById("footer");
-        footer.classList.toggle("footer-light-theme");
-        let socialIcons = document.getElementsByClassName("social-icon");
-        const darkTheme = Terminal.isDarkTheme();
-        for (const index in socialIcons) {
-            if (Object.hasOwnProperty.call(socialIcons, index)) {
-                const element = socialIcons[index];
-                const icon = element;
-                icon.src = icon.src.replace(darkTheme ? "white" : "black", darkTheme ? "black" : "white");
-            }
-        }
-        const element = document.getElementById("theme-toggle");
-        const themeToggle = element;
-        themeToggle.checked = darkTheme;
-        Terminal.setIsDarkTheme(!darkTheme);
+        changeTheme();
     }
 }
