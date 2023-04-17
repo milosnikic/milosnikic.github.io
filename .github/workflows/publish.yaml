@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - main 
+jobs:
+  publish:
+    name: Publish to github
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: ./scripts/build.sh
+      
+      - name: Test project
+        run: npm run test-ci
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_SECRET_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages 
+

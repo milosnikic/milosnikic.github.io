@@ -7,6 +7,8 @@ const KEYS = {
   ENTER: "Enter",
   ESC: "Escape",
   BACKSPACE: "Backspace",
+  ARROW_UP: "ArrowUp",
+  ARROW_DOWN: "ArrowDown",
 };
 const IGNORE_KEYS = [KEYS.SHIFT, KEYS.ESC, KEYS.CAPS_LOCK];
 

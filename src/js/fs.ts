@@ -5,8 +5,20 @@ import {
   PROJECTS,
 } from "./constants.js";
 
-class Node {
-  constructor(name, type, children = null, content = null, absolutePath = "") {
+export class Node {
+  name: string;
+  type: string;
+  children: null | Node[];
+  content: null | string;
+  absolutePath: string;
+
+  constructor(
+    name: string,
+    type: string,
+    children: null | Node[] = null,
+    content: null | string = null,
+    absolutePath: string = ""
+  ) {
     this.name = name;
     this.type = type;
     this.children = children;
@@ -15,7 +27,10 @@ class Node {
   }
 }
 
-class FileSystem {
+export class FileSystem {
+  root: Node;
+  currentWorkingDirectory: Node;
+
   constructor() {
     this.root = new Node(
       "/",
@@ -117,46 +132,60 @@ class FileSystem {
     this.currentWorkingDirectory = this.root;
   }
 
-  changeDirectory(destination) {
-    var directories = [];
+  changeDirectory(path: string) {
+    const directory = this.resolve(path);
 
-    if (destination === "/") {
-      this.currentWorkingDirectory = this.root;
-      return true;
-    }
-
-    // Remove trailing /
-    if (destination[destination.length - 1] == "/") {
-      destination = destination.slice(0, destination.length - 1);
-    }
-
-    // Shortcut
-    if (destination === "..") {
-      var parent = this.getParent(this.currentWorkingDirectory);
-      if (parent) {
-        this.currentWorkingDirectory = parent;
-        return true;
-      }
+    if (!directory || directory.type === "file") {
       return false;
     }
 
-    // Absolute
-    if (destination.startsWith("/")) {
-      destination = destination.slice(1, destination.length);
-      directories = destination.split("/");
-      return this.changeDir(directories, this.root);
+    this.currentWorkingDirectory = directory;
+    return true;
+  }
+
+  resolve(path: string): Node | null {
+    // Root
+    if (path === "/") {
+      return this.root;
     }
 
-    // Relative
-    if (destination.startsWith("./")) {
-      destination = destination.slice(2, destination.length);
-      directories = destination.split("/");
-      return this.changeDir(directories, this.currentWorkingDirectory);
+    // Remove trailing /
+    if (path[path.length - 1] == "/") {
+      path = path.slice(0, path.length - 1);
+    }
+
+    // Shortcut
+    if (path === "..") {
+      var parent = this.getParent(this.currentWorkingDirectory);
+      if (parent) {
+        return parent;
+      }
+
+      return null;
+    }
+
+    // Absolute path
+    //
+    // Example: /projects/Carvana.txt
+    if (path.startsWith("/")) {
+      return this.resolvePath(path.slice(1, path.length).split("/"), this.root);
+    }
+
+    // Relative path
+    //
+    // Example: ./education
+    if (path.startsWith("./")) {
+      return this.resolvePath(
+        path.slice(2, path.length).split("/"),
+        this.currentWorkingDirectory
+      );
     }
 
     // Relative to parent
-    if (destination.startsWith("../")) {
-      directories = destination.split("/");
+    //
+    // Example: ../experience
+    if (path.startsWith("../")) {
+      let directories = path.split("/");
       let child = this.currentWorkingDirectory;
 
       // We need to replace each double dot with corresponding parent
@@ -171,58 +200,58 @@ class FileSystem {
               child = parent;
               continue;
             } else {
-              return false;
+              return null;
             }
           }
         }
       }
 
-      const current = child.children.find(
-        (f) => f.name === directories[directories.length - 1]
+      const current = child!.children!.find(
+        (f: Node) => f.name === directories[directories.length - 1]
       );
 
       if (current !== undefined) {
-        this.currentWorkingDirectory = current;
-        return true;
+        return current;
       }
 
-      return false;
+      return null;
     }
 
-    return this.changeDir(destination.split("/"), this.currentWorkingDirectory);
+    // Basic path
+    //
+    // Example: education/faculty
+    return this.resolvePath(path.split("/"), this.currentWorkingDirectory);
   }
 
-  changeDir(directories, origin) {
+  private resolvePath(directories: string[], origin: Node) {
     var directoryIndex = 0;
-    var destination = origin;
+    var destination: undefined | Node = origin;
     while (directoryIndex < directories.length) {
-      destination = destination.children.find(
+      destination = destination!.children!.find(
         (c) => c.name === directories[directoryIndex]
       );
-      if (!destination || destination.type === "file") {
-        return false;
+      if (!destination) {
+        return null;
       }
       directoryIndex++;
     }
-    this.currentWorkingDirectory = destination;
-    return true;
+    return destination;
   }
 
-  getParent(node, current = this.root) {
+  getParent(node: Node, current: Node = this.root): null | Node {
     if (node === this.root) {
       return null;
     }
     if (current.type === "file") {
       return null;
     }
-    if (current.children.includes(node)) {
+    if (current!.children!.includes(node)) {
       return current;
     }
 
-    for (const dir in current.children) {
-      if (Object.hasOwnProperty.call(current.children, dir)) {
-        const child = current.children[dir];
-        var parent = this.getParent(node, child);
+    if (current.children) {
+      for (const child of current.children) {
+        const parent = this.getParent(node, child);
         if (parent) {
           return parent;
         }
@@ -232,14 +261,13 @@ class FileSystem {
     return null;
   }
 
-  getObjectByName(name, current = this.root) {
+  getObjectByName(name: string, current: Node = this.root): null | Node {
     if (current.name === name) {
       return current;
     }
 
-    for (const obj in current.children) {
-      if (Object.hasOwnProperty.call(current.children, obj)) {
-        const element = current.children[obj];
+    if (current.children) {
+      for (const element of current.children) {
         let result = this.getObjectByName(name, element);
         if (result) {
           return result;
@@ -248,6 +276,28 @@ class FileSystem {
     }
 
     return null;
+  }
+
+  listCurrentWorkingDirectory(): Node[] {
+    return this.listDirectory(this.currentWorkingDirectory);
+  }
+
+  listDirectoryPath(path: string): Node[] | null {
+    const directory = this.resolve(path);
+    if (!directory || directory.type === "file") {
+      return null;
+    }
+
+    return this.listDirectory(directory);
+  }
+
+  private listDirectory(directory: Node): Node[] {
+    let nodes: Node[] = [];
+    for (let index = 0; index < directory.children!.length; index++) {
+      nodes.push(directory.children![index]);
+    }
+
+    return nodes;
   }
 }
 
