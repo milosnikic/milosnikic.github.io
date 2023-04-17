@@ -4,6 +4,8 @@ echo "Copying index.html to ./dist..."
 cp index.html ./dist
 echo "Copying styles.css to ./dist..."
 cp src/css/* ./dist
+echo "Copying images to ./dist..."
+cp -R src/img ./dist/src/img
 
 
 cd dist

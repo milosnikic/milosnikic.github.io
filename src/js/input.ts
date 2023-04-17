@@ -1,5 +1,5 @@
 import { IGNORE_KEYS, KEYS } from "./constants.js";
-import { Terminal } from "./terminal.js";
+import { terminal } from "./terminal.js";
 import { createNewCommandInput } from "./utils.js";
 import { scrollToBottom, commitCommand, clearTerminal } from "./utils.js";
 
@@ -8,7 +8,6 @@ export class InputProcessor {
   isMetaPressed: boolean = false;
   isAltPressed: boolean = false;
   commandsElement: HTMLElement;
-  terminal: Terminal;
   input: null | HTMLLIElement;
 
   constructor() {
@@ -17,7 +16,6 @@ export class InputProcessor {
     this.isAltPressed = false;
     this.commandsElement = document.getElementById("commands") as HTMLElement;
     this.commandsElement.appendChild(createNewCommandInput());
-    this.terminal = new Terminal([], 0, true);
     this.addKeydownListener();
     this.addKeyupListener();
     this.input = null;
@@ -111,26 +109,25 @@ export class InputProcessor {
   }
 
   private getPreviousFromHistory() {
-    const commandsHistory = Terminal.getCommandsHistory();
+    const commandsHistory = terminal.getCommandsHistory();
     if (commandsHistory.length > 0) {
-      let previous =
-        commandsHistory.length - 1 - this.terminal.getHistoryIndex();
+      let previous = commandsHistory.length - 1 - terminal.getHistoryIndex();
       if (previous < 0) {
         return;
       }
-      this.terminal.incrementHistoryIndex();
+      terminal.incrementHistoryIndex();
       this.input!.textContent = commandsHistory[previous];
     }
   }
 
   private getNextFromHistory() {
-    const commandsHistory = Terminal.getCommandsHistory();
+    const commandsHistory = terminal.getCommandsHistory();
     if (commandsHistory.length > 0) {
-      let next = commandsHistory.length - this.terminal.historyIndex + 1;
+      let next = commandsHistory.length - terminal.historyIndex + 1;
       if (next > commandsHistory.length) {
         return;
       }
-      this.terminal.decrementHistoryIndex();
+      terminal.decrementHistoryIndex();
       this.input!.textContent = commandsHistory[next];
     }
   }
@@ -151,7 +148,7 @@ export class InputProcessor {
     var command = commitCommand();
 
     if (command !== "") {
-      var content = this.terminal.processInput(command);
+      var content = terminal.processInput(command);
       if (content) {
         this.commandsElement.appendChild(content);
       }

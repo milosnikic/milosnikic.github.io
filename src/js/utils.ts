@@ -1,5 +1,6 @@
 import { HOST, BLINK_CHARACTER } from "./constants.js";
 import { fileSystem } from "./fs.js";
+import { terminal } from "./terminal.js";
 
 export function distance(x: number, y: number, collX: number, collY: number) {
   return Math.sqrt(
@@ -114,4 +115,33 @@ export function createNewResultLine(content: string | null) {
   line.className = "result";
   line.innerHTML = content || "";
   return line;
+}
+
+export function changeTheme() {
+  let navbar = document.getElementById("navbar");
+  navbar!.classList.toggle("navbar-light-theme");
+
+  let heading = document.getElementById("heading");
+  heading!.classList.toggle("light-theme");
+
+  let footer = document.getElementById("footer");
+  footer!.classList.toggle("footer-light-theme");
+
+  let socialIcons = document.getElementsByClassName("social-icon");
+  const darkTheme: boolean = terminal.isDarkTheme();
+  for (const index in socialIcons) {
+    if (Object.hasOwnProperty.call(socialIcons, index)) {
+      const element: Element = socialIcons[index];
+      const icon = element as HTMLImageElement;
+      icon.src = icon!.src.replace(
+        darkTheme ? "white" : "black",
+        darkTheme ? "black" : "white"
+      );
+    }
+  }
+
+  const element: HTMLElement | null = document.getElementById("theme-toggle");
+  const themeToggle = element as HTMLInputElement;
+  themeToggle.checked = darkTheme;
+  terminal.setIsDarkTheme(!darkTheme);
 }

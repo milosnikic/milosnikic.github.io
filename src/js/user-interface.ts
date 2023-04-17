@@ -1,5 +1,5 @@
 import { distance, createDrops, Drop } from "./utils.js";
-import { Terminal } from "./terminal.js";
+import { terminal } from "./terminal.js";
 import { InputProcessor } from "./input.js";
 
 export class UserInterface {
@@ -30,7 +30,7 @@ export class UserInterface {
   }
 
   draw() {
-    this.ctx.fillStyle = Terminal.isDarkTheme() ? "#000" : "#fff";
+    this.ctx.fillStyle = terminal.isDarkTheme() ? "#000" : "#fff";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let i = 0; i < this.drops.length; i++) {
@@ -85,9 +85,9 @@ export class UserInterface {
   private setTheme(event: Event) {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
-      Terminal.setIsDarkTheme(false);
+      terminal.setIsDarkTheme(false);
     } else {
-      Terminal.setIsDarkTheme(true);
+      terminal.setIsDarkTheme(true);
     }
   }
 
