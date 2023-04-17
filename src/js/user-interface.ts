@@ -1,4 +1,4 @@
-import { distance, createDrops, Drop } from "./utils.js";
+import { distance, createDrops, Drop, changeTheme } from "./utils.js";
 import { terminal } from "./terminal.js";
 import { InputProcessor } from "./input.js";
 
@@ -23,7 +23,7 @@ export class UserInterface {
       this.moveDropsAccordingToCursor(event);
     });
     this.toggleSwitch.addEventListener("change", (event) => {
-      this.setTheme(event);
+      changeTheme();
     });
     this.typewrite("milOS CLI: Streamline Your Skills");
     new InputProcessor();
@@ -80,15 +80,6 @@ export class UserInterface {
     }
     this.oldX = mouseX;
     this.oldY = mouseY;
-  }
-
-  private setTheme(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.checked) {
-      terminal.setIsDarkTheme(false);
-    } else {
-      terminal.setIsDarkTheme(true);
-    }
   }
 
   private typewrite(text: string, i: number = 0) {

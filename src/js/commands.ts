@@ -168,6 +168,12 @@ export class Theme extends Command {
         `There are only 2 themes "dark" and "light". Type "help" for more information.`
       );
     }
+    if (
+      (this.arguments === "dark" && terminal.isDarkTheme()) ||
+      (this.arguments === "light" && !terminal.isDarkTheme())
+    ) {
+      return;
+    }
 
     changeTheme();
   }
