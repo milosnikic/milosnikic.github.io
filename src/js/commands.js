@@ -124,6 +124,10 @@ export class Theme extends Command {
             !["dark", "light"].includes(this.arguments.toLocaleLowerCase())) {
             return createNewResultLine(`There are only 2 themes "dark" and "light". Type "help" for more information.`);
         }
+        if ((this.arguments === "dark" && terminal.isDarkTheme()) ||
+            (this.arguments === "light" && !terminal.isDarkTheme())) {
+            return;
+        }
         changeTheme();
     }
 }
