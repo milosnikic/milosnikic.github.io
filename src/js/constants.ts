@@ -9,10 +9,12 @@ const KEYS = {
   BACKSPACE: "Backspace",
   ARROW_UP: "ArrowUp",
   ARROW_DOWN: "ArrowDown",
+  ARROW_LEFT: "ArrowLeft",
+  ARROW_RIGHT: "ArrowRight",
 };
 const IGNORE_KEYS = [KEYS.SHIFT, KEYS.ESC, KEYS.CAPS_LOCK];
 
-const BLINK_CHARACTER = "▉";
+const CURSOR_CHARACTER = "▉";
 const HOST = "milos.nikic@localhost";
 
 const BIOGRAPHY_TEXT =
@@ -101,7 +103,7 @@ const COMMANDS = {
 export {
   IGNORE_KEYS,
   KEYS,
-  BLINK_CHARACTER,
+  CURSOR_CHARACTER,
   HOST,
   BIOGRAPHY_TEXT,
   MASTERS_DEGREE_TEXT,
