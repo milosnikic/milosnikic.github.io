@@ -71,7 +71,7 @@ to change to specific theme.
 
 ## TODO
 
-- [ ] Add functionality with arrows (left-right)
+- [x] Add functionality with arrows (left-right)
 - [x] Add functionality with arrows (up-down) for browsing history
 - [ ] Implement autocomplete suggestions
 - [ ] Add comments functionality
