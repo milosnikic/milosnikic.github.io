@@ -92,7 +92,7 @@ export class Cat extends Command {
       );
     }
 
-    const object = fileSystem.getObjectByName(this.arguments);
+    const object = fileSystem.resolve(this.arguments);
     if (!object) {
       return createNewResultLine(
         `Unknown object "${this.arguments}". Type "help" for more information.`
