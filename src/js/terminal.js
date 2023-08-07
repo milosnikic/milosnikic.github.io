@@ -1,4 +1,4 @@
-import { Cd, Clear, Ls, Pwd, History, Theme, Cat, Help, } from "./commands.js";
+import { Cd, Clear, Ls, Pwd, History, Theme, Cat, Help, Exit, } from "./commands.js";
 import { createNewResultLine } from "./utils.js";
 export class TerminalCommand {
     constructor(name = "", command = null, args = "") {
@@ -27,6 +27,7 @@ export class Terminal {
             new Help("help"),
             new History("history"),
             new Theme("theme", true, true),
+            new Exit("exit"),
         ];
         this.terminalCommand = new TerminalCommand();
     }

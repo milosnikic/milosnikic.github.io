@@ -83,6 +83,8 @@ export function changeTheme() {
     heading.classList.toggle("light-theme");
     let footer = document.getElementById("footer");
     footer.classList.toggle("footer-light-theme");
+    let rightsText = document.getElementById("credits-text");
+    rightsText.classList.toggle("credits-text-light-theme");
     let socialIcons = document.getElementsByClassName("social-icon");
     const darkTheme = terminal.isDarkTheme();
     for (const index in socialIcons) {

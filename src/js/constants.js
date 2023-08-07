@@ -82,5 +82,6 @@ const COMMANDS = {
         shortDescription: "Displays all possible commands with their description",
     },
     theme: { shortDescription: "Allows user to set preferred theme" },
+    exit: { shortDescription: "Closes browser's page" },
 };
 export { IGNORE_KEYS, KEYS, CURSOR_CHARACTER, HOST, BIOGRAPHY_TEXT, MASTERS_DEGREE_TEXT, BACHELORS_DEGREE_TEXT, PROJECTS, COMMANDS, };

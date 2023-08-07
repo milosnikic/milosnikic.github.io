@@ -131,3 +131,11 @@ export class Theme extends Command {
         changeTheme();
     }
 }
+export class Exit extends Command {
+    execute() {
+        const result = window.confirm("Are you sure you want to exit page?");
+        if (result) {
+            window.close();
+        }
+    }
+}

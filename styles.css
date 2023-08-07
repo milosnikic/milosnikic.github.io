@@ -61,6 +61,7 @@ canvas {
 
 .footer {
   position: fixed;
+  padding-bottom: 10px;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -74,7 +75,7 @@ canvas {
   color: white;
 }
 
-.footer > a {
+.footer > .socials > a {
   text-decoration: none;
 }
 
@@ -87,6 +88,14 @@ canvas {
 .social-icon:hover {
   opacity: 50%;
   transform: scale(1.2);
+}
+
+.credits-text {
+  font-size: 9px;
+}
+
+.credits-text-light-theme {
+  color: black;
 }
 
 .blink {
