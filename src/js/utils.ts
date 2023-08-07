@@ -127,6 +127,9 @@ export function changeTheme() {
   let footer = document.getElementById("footer");
   footer!.classList.toggle("footer-light-theme");
 
+  let rightsText = document.getElementById("credits-text");
+  rightsText!.classList.toggle("credits-text-light-theme");
+
   let socialIcons = document.getElementsByClassName("social-icon");
   const darkTheme: boolean = terminal.isDarkTheme();
   for (const index in socialIcons) {
