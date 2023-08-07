@@ -1,4 +1,4 @@
-import { HOST, BLINK_CHARACTER } from "./constants.js";
+import { HOST, CURSOR_CHARACTER as CURSOR_CHARACTER } from "./constants.js";
 import { fileSystem } from "./fs.js";
 import { terminal } from "./terminal.js";
 export function distance(x, y, collX, collY) {
@@ -46,24 +46,22 @@ export function createNewCommandInput() {
     var inputSpan = document.createElement("span");
     inputSpan.className = "input active";
     inputSpan.id = "input";
-    var blinkSpan = document.createElement("span");
-    blinkSpan.textContent = BLINK_CHARACTER;
-    blinkSpan.className = "blink";
-    blinkSpan.id = "blink";
+    var cursorSpan = createCursorSpan();
     // Setting command as active
     // in order to be able to write
     command.className = "command active";
     command.appendChild(hostSpan);
+    inputSpan.appendChild(cursorSpan);
     command.appendChild(inputSpan);
-    command.appendChild(blinkSpan);
     return command;
 }
 export function commitCommand() {
     var commands = document.getElementById("commands");
     var lastCommand = commands.getElementsByClassName("command active")[0];
-    var blink = document.getElementById("blink");
-    if (blink) {
-        lastCommand.removeChild(blink);
+    var input = document.getElementsByClassName("input active")[0];
+    var cursor = document.getElementById("cursor");
+    if (cursor) {
+        input.removeChild(cursor);
     }
     document.getElementsByClassName("input active")[0].classList.remove("active");
     lastCommand.classList.remove("active");
@@ -98,4 +96,11 @@ export function changeTheme() {
     const themeToggle = element;
     themeToggle.checked = darkTheme;
     terminal.setIsDarkTheme(!darkTheme);
+}
+export function createCursorSpan() {
+    var cursorSpan = document.createElement("span");
+    cursorSpan.textContent = CURSOR_CHARACTER;
+    cursorSpan.className = "blink";
+    cursorSpan.id = "cursor";
+    return cursorSpan;
 }

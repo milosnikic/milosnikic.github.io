@@ -11,6 +11,7 @@ import { IGNORE_KEYS, KEYS } from "./constants.js";
 import { terminal } from "./terminal.js";
 import { createNewCommandInput } from "./utils.js";
 import { scrollToBottom, commitCommand, clearTerminal } from "./utils.js";
+import { Cursor } from "./cursor.js";
 export class InputProcessor {
     constructor() {
         this.isControlPressed = false;
@@ -23,7 +24,8 @@ export class InputProcessor {
         this.commandsElement.appendChild(createNewCommandInput());
         this.addKeydownListener();
         this.addKeyupListener();
-        this.input = null;
+        this.input = document.getElementsByClassName("input active")[0];
+        this.cursor = new Cursor();
     }
     addKeydownListener() {
         addEventListener("keydown", (event) => __awaiter(this, void 0, void 0, function* () { return this.keyPressed(event); }));
@@ -56,7 +58,7 @@ export class InputProcessor {
             }
             this.input = document.getElementsByClassName("input active")[0];
             if (event.key === KEYS.BACKSPACE) {
-                return this.handleDelete();
+                return this.cursor.delete(this.input, this.isAltPressed);
             }
             if (event.key === KEYS.ARROW_UP) {
                 event.preventDefault();
@@ -65,6 +67,10 @@ export class InputProcessor {
             if (event.key === KEYS.ARROW_DOWN) {
                 event.preventDefault();
                 return this.getNextFromHistory();
+            }
+            if (event.key === KEYS.ARROW_LEFT || event.key === KEYS.ARROW_RIGHT) {
+                event.preventDefault();
+                return this.cursor.move(this.input, event.key, this.isAltPressed, this.isMetaPressed);
             }
             if (this.isCopy(event)) {
                 return;
@@ -80,21 +86,12 @@ export class InputProcessor {
                 return clearTerminal();
             }
             if (event.key === KEYS.ENTER) {
+                this.cursor.resetPosition();
                 return this.processCommand();
             }
             scrollToBottom();
-            this.input.textContent += event.key;
+            this.cursor.addTextContent(this.input, event.key);
         });
-    }
-    handleDelete() {
-        if (this.input.textContent.length > 0) {
-            var endIndex = this.input.textContent.length - 1;
-            if (this.isAltPressed) {
-                const lastIndex = Math.max(this.input.textContent.lastIndexOf(" "), this.input.textContent.lastIndexOf("."));
-                endIndex = lastIndex !== -1 ? lastIndex : 0;
-            }
-            this.input.textContent = this.input.textContent.slice(0, endIndex);
-        }
     }
     getPreviousFromHistory() {
         const commandsHistory = terminal.getCommandsHistory();

@@ -81,3 +81,8 @@ export class UserInterface {
         }
     }
 }
+// TODO:
+// We should create simplified version with just text and emojis
+// that will be used for non-tech people that are more familiar
+// with reading, than messing with CLI 😊
+// Also, should consider adding pixel art image as avatar 👨‍💻

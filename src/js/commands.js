@@ -66,7 +66,7 @@ export class Cat extends Command {
         if (!this.arguments || Array.isArray(this.arguments)) {
             return createNewResultLine(`You have to provide additional arguments. Type "help" for more information.`);
         }
-        const object = fileSystem.getObjectByName(this.arguments);
+        const object = fileSystem.resolve(this.arguments);
         if (!object) {
             return createNewResultLine(`Unknown object "${this.arguments}". Type "help" for more information.`);
         }

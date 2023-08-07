@@ -9,9 +9,11 @@ const KEYS = {
     BACKSPACE: "Backspace",
     ARROW_UP: "ArrowUp",
     ARROW_DOWN: "ArrowDown",
+    ARROW_LEFT: "ArrowLeft",
+    ARROW_RIGHT: "ArrowRight",
 };
 const IGNORE_KEYS = [KEYS.SHIFT, KEYS.ESC, KEYS.CAPS_LOCK];
-const BLINK_CHARACTER = "▉";
+const CURSOR_CHARACTER = "▉";
 const HOST = "milos.nikic@localhost";
 const BIOGRAPHY_TEXT = "I am a skilled software engineer with 3 years of professional experience in designing, \
 developing, and maintaining applications. My expertise spans the entire software development life cycle, including \
@@ -81,4 +83,4 @@ const COMMANDS = {
     },
     theme: { shortDescription: "Allows user to set preferred theme" },
 };
-export { IGNORE_KEYS, KEYS, BLINK_CHARACTER, HOST, BIOGRAPHY_TEXT, MASTERS_DEGREE_TEXT, BACHELORS_DEGREE_TEXT, PROJECTS, COMMANDS, };
+export { IGNORE_KEYS, KEYS, CURSOR_CHARACTER, HOST, BIOGRAPHY_TEXT, MASTERS_DEGREE_TEXT, BACHELORS_DEGREE_TEXT, PROJECTS, COMMANDS, };
