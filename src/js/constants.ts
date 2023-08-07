@@ -98,6 +98,7 @@ const COMMANDS = {
     shortDescription: "Displays all possible commands with their description",
   },
   theme: { shortDescription: "Allows user to set preferred theme" },
+  exit: { shortDescription: "Closes browser's page" },
 };
 
 export {
