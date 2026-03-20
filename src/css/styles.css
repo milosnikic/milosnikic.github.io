@@ -350,3 +350,222 @@ img.themes {
   width: 24px;
   margin-right: 5px;
 }
+/* Dev/HR Mode Toggle */
+.toggle-divider {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 10px;
+}
+
+.mode-icon {
+  font-size: 16px;
+  color: white;
+  user-select: none;
+}
+
+.mode-icon.light-theme {
+  color: black;
+}
+
+.toggle-divider.light-theme {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* CV View */
+.cv-view {
+  display: none;
+  width: 100%;
+  padding: 40px 20px 80px 20px;
+  box-sizing: border-box;
+  z-index: 1;
+  position: relative;
+}
+
+.cv-view.active {
+  display: block;
+}
+
+.cv-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #0a0a0a;
+  border: 2px solid #00ff41;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.4), 0 0 60px rgba(0, 255, 65, 0.1), inset 0 0 20px rgba(0, 255, 65, 0.03);
+  padding: 40px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff41;
+}
+
+/* CV Header */
+.cv-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.cv-ascii-image {
+  display: inline-block;
+  border: 1px solid #00ff41;
+  padding: 10px;
+  margin-bottom: 12px;
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.cv-ascii-image pre {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  color: #00ff41;
+  font-size: 8px;
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+.cv-name {
+  font-size: 28px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #00ff41;
+  letter-spacing: 3px;
+}
+
+.cv-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.cv-contact {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 8px;
+}
+
+.cv-link {
+  color: #00ff41;
+  text-decoration: none;
+}
+
+.cv-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* CV Sections */
+.cv-section {
+  margin-bottom: 28px;
+}
+
+.cv-section-title {
+  border-bottom: 1px solid #00ff41;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.cv-section-body {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.cv-role {
+  opacity: 0.5;
+  font-size: 11px;
+  font-weight: normal;
+}
+
+/* CV Experience */
+.cv-experience-entry {
+  margin-bottom: 18px;
+}
+
+.cv-company {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.cv-project-name {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.cv-bullets {
+  font-size: 11px;
+  opacity: 0.6;
+  line-height: 1.7;
+  padding-left: 12px;
+  border-left: 1px solid rgba(0, 255, 65, 0.3);
+  margin-top: 6px;
+}
+
+.cv-tech {
+  font-size: 10px;
+  opacity: 0.4;
+  margin-top: 6px;
+}
+
+/* CV Skills */
+.cv-skills {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 2;
+}
+
+.cv-skill-category {
+  opacity: 0.5;
+}
+
+/* CV Education */
+.cv-education-detail {
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+/* CV Projects Grid */
+.cv-projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.cv-project-card {
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  padding: 8px;
+  border-radius: 2px;
+  text-decoration: none;
+  color: #00ff41;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.cv-project-card:hover {
+  border-color: #00ff41;
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+}
+
+.cv-project-card-name {
+  font-weight: bold;
+}
+
+.cv-project-card-tech {
+  opacity: 0.5;
+  font-size: 10px;
+}
+
+/* CV Open Source */
+.cv-opensource {
+  line-height: 2;
+}
+
+/* HR Mode body override */
+body.hr-mode {
+  overflow-y: auto !important;
+}
+
+body.hr-mode .terminal {
+  display: none;
+}
