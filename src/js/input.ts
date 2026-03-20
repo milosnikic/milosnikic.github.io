@@ -21,6 +21,7 @@ export class InputProcessor {
   activeSuggestions: string[] = [];
   suggestionIndex: number = -1;
   suggestionPrefix: string = "";
+  disabled: boolean = false;
 
   constructor() {
     this.isControlPressed = false;
@@ -65,6 +66,8 @@ export class InputProcessor {
       this.isMetaPressed = true;
       return;
     }
+
+    if (this.disabled) return;
 
     this.input = document.getElementsByClassName(
       "input active"
@@ -206,5 +209,9 @@ export class InputProcessor {
     var newCommandInput = createNewCommandInput();
     this.commandsElement.appendChild(newCommandInput);
     scrollToBottom();
+  }
+
+  setDisabled(disabled: boolean) {
+    this.disabled = disabled;
   }
 }
