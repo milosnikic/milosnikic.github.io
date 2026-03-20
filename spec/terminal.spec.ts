@@ -4,7 +4,7 @@ const { JSDOM } = jsdom;
 import { Cd, Pwd } from "../src/js/commands.js";
 
 describe("Terminal", function () {
-  let terminal = new Terminal([], 0, true);
+  let terminal: Terminal = new Terminal([], 0, true);
   const cd = new Cd("cd", true, true);
 
   describe("process input", function () {
@@ -12,12 +12,16 @@ describe("Terminal", function () {
     global.window = dom.window as unknown as Window & typeof globalThis;
     global.document = dom.window.document;
 
+    beforeEach(function () {
+      terminal = new Terminal([], 0, true);
+    });
+
     it("shuld add command to history", function () {
       const commandsHistoryLength = terminal.commandsHistory.length;
 
       terminal.processInput("echo 'Hello'") as HTMLLIElement;
 
-      expect(terminal.historyIndex).toBe(0);
+      expect(terminal.historyIndex).toBe(commandsHistoryLength + 1);
       expect(terminal.commandsHistory.length).toBe(commandsHistoryLength + 1);
     });
 
