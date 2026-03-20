@@ -7,6 +7,8 @@
     "test": "tsc && jasmine",
     "test-ci": "jasmine",
     "build": "tsc",
+    "dev": "tsc --watch & npx serve -l 3000 . & wait",
+    "serve": "npx serve -l 3000 .",
     "tsc-init": "tsc --init"
   },
   "author": "Miloš Nikić",

@@ -1,7 +1,14 @@
 import { IGNORE_KEYS, KEYS } from "./constants.js";
 import { terminal } from "./terminal.js";
 import { createNewCommandInput } from "./utils.js";
-import { scrollToBottom, commitCommand, clearTerminal } from "./utils.js";
+import {
+  scrollToBottom,
+  commitCommand,
+  clearTerminal,
+  getAutocomplete,
+  displaySuggestions,
+  removeSuggestions,
+} from "./utils.js";
 import { Cursor } from "./cursor.js";
 
 export class InputProcessor {
@@ -11,6 +18,9 @@ export class InputProcessor {
   commandsElement: HTMLElement;
   input: null | HTMLSpanElement;
   cursor: Cursor;
+  activeSuggestions: string[] = [];
+  suggestionIndex: number = -1;
+  suggestionPrefix: string = "";
 
   constructor() {
     this.isControlPressed = false;
@@ -23,7 +33,7 @@ export class InputProcessor {
     this.input = document.getElementsByClassName(
       "input active"
     )[0] as HTMLSpanElement;
-    this.cursor = new Cursor();
+    this.cursor = new Cursor(this.input);
   }
 
   addKeydownListener() {
@@ -59,29 +69,35 @@ export class InputProcessor {
     this.input = document.getElementsByClassName(
       "input active"
     )[0] as HTMLSpanElement;
+    this.cursor.setInput(this.input);
+
+    if (event.key !== KEYS.TAB) {
+      this.resetSuggestions();
+    }
+
+    if (event.key === KEYS.TAB) {
+      event.preventDefault();
+      this.handleAutocomplete();
+      return;
+    }
 
     if (event.key === KEYS.BACKSPACE) {
-      return this.cursor.delete(this.input, this.isAltPressed);
+      return this.cursor.delete(this.isAltPressed);
     }
 
     if (event.key === KEYS.ARROW_UP) {
       event.preventDefault();
-      return this.getPreviousFromHistory();
+      return this.cursor.getPreviousFromHistory();
     }
 
     if (event.key === KEYS.ARROW_DOWN) {
       event.preventDefault();
-      return this.getNextFromHistory();
+      return this.cursor.getNextFromHistory();
     }
 
     if (event.key === KEYS.ARROW_LEFT || event.key === KEYS.ARROW_RIGHT) {
       event.preventDefault();
-      return this.cursor.move(
-        this.input,
-        event.key,
-        this.isAltPressed,
-        this.isMetaPressed
-      );
+      return this.cursor.move(event.key, this.isAltPressed, this.isMetaPressed);
     }
 
     if (this.isCopy(event)) {
@@ -89,7 +105,7 @@ export class InputProcessor {
     }
 
     if (this.isPaste(event)) {
-      return await this.pasteFromClipboard();
+      return await this.cursor.pasteFromClipboard();
     }
 
     if (event.key === "c" && this.isControlPressed) {
@@ -107,31 +123,7 @@ export class InputProcessor {
     }
 
     scrollToBottom();
-    this.cursor.addTextContent(this.input, event.key);
-  }
-
-  private getPreviousFromHistory() {
-    const commandsHistory = terminal.getCommandsHistory();
-    if (commandsHistory.length > 0) {
-      let previous = commandsHistory.length - 1 - terminal.getHistoryIndex();
-      if (previous < 0) {
-        return;
-      }
-      terminal.incrementHistoryIndex();
-      this.input!.textContent = commandsHistory[previous];
-    }
-  }
-
-  private getNextFromHistory() {
-    const commandsHistory = terminal.getCommandsHistory();
-    if (commandsHistory.length > 0) {
-      let next = commandsHistory.length - terminal.historyIndex + 1;
-      if (next > commandsHistory.length) {
-        return;
-      }
-      terminal.decrementHistoryIndex();
-      this.input!.textContent = commandsHistory[next];
-    }
+    this.cursor.addTextContent(event.key);
   }
 
   private isPaste(event: KeyboardEvent) {
@@ -142,8 +134,59 @@ export class InputProcessor {
     return event.key === "c" && this.isMetaPressed;
   }
 
-  private async pasteFromClipboard() {
-    this.input!.textContent += await navigator.clipboard.readText();
+  private handleAutocomplete() {
+    // If we're already cycling through suggestions, advance to next
+    if (this.activeSuggestions.length > 0) {
+      this.suggestionIndex =
+        (this.suggestionIndex + 1) % this.activeSuggestions.length;
+      const selected = this.activeSuggestions[this.suggestionIndex];
+      this.cursor.replaceText(this.suggestionPrefix + selected);
+      displaySuggestions(this.activeSuggestions, this.suggestionIndex);
+      return;
+    }
+
+    const text = this.cursor.getText();
+    if (!text) return;
+
+    const result = getAutocomplete(text);
+    if (result.suggestions.length === 0) {
+      removeSuggestions();
+      return;
+    }
+
+    if (result.suggestions.length === 1) {
+      removeSuggestions();
+      const completed = result.prefix + result.suggestions[0];
+      this.cursor.replaceText(completed);
+      return;
+    }
+
+    // Multiple matches — start cycling
+    this.activeSuggestions = result.suggestions;
+    this.suggestionPrefix = result.prefix;
+    this.suggestionIndex = 0;
+    this.cursor.replaceText(
+      this.suggestionPrefix + this.activeSuggestions[0]
+    );
+    displaySuggestions(this.activeSuggestions, this.suggestionIndex);
+  }
+
+  private resetSuggestions() {
+    this.activeSuggestions = [];
+    this.suggestionIndex = -1;
+    this.suggestionPrefix = "";
+    removeSuggestions();
+  }
+
+  private getCommonPrefix(strings: string[]): string {
+    if (strings.length === 0) return "";
+    let prefix = strings[0];
+    for (let i = 1; i < strings.length; i++) {
+      while (!strings[i].startsWith(prefix)) {
+        prefix = prefix.slice(0, -1);
+      }
+    }
+    return prefix;
   }
 
   private processCommand() {
