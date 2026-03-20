@@ -379,7 +379,7 @@ img.themes {
   width: 100%;
   padding: 40px 20px 80px 20px;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: 2;
   position: relative;
 }
 
