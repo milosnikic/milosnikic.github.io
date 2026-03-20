@@ -1,4 +1,8 @@
-import { HOST, CURSOR_CHARACTER as CURSOR_CHARACTER } from "./constants.js";
+import {
+  HOST,
+  CURSOR_CHARACTER as CURSOR_CHARACTER,
+  COMMANDS,
+} from "./constants.js";
 import { fileSystem } from "./fs.js";
 import { terminal } from "./terminal.js";
 
@@ -155,4 +159,62 @@ export function createCursorSpan(): HTMLSpanElement {
   cursorSpan.className = "blink";
   cursorSpan.id = "cursor";
   return cursorSpan;
+}
+
+export interface AutocompleteResult {
+  suggestions: string[];
+  prefix: string;
+  suffix: string;
+}
+
+export function getAutocomplete(text: string): AutocompleteResult {
+  const spaceIndex = text.indexOf(" ");
+
+  if (spaceIndex === -1) {
+    // No space — autocomplete commands
+    const suggestions: string[] = [];
+    for (const command of Object.keys(COMMANDS)) {
+      if (command.startsWith(text) && command !== text) {
+        suggestions.push(command);
+      }
+    }
+    return { suggestions, prefix: "", suffix: "" };
+  }
+
+  // Has space — autocomplete filesystem paths (argument)
+  const commandPart = text.slice(0, spaceIndex + 1);
+  const argPart = text.slice(spaceIndex + 1);
+  const directoryContent = fileSystem.listCurrentWorkingDirectory();
+  const suggestions: string[] = [];
+
+  for (const node of directoryContent) {
+    if (node.name.startsWith(argPart) && node.name !== argPart) {
+      suggestions.push(node.name);
+    }
+  }
+
+  return { suggestions, prefix: commandPart, suffix: "" };
+}
+
+export function displaySuggestions(suggestions: string[], activeIndex: number = -1) {
+  const commands = document.getElementById("commands");
+  if (!commands) return;
+
+  removeSuggestions();
+
+  const line = document.createElement("li");
+  line.className = "result autocomplete-suggestions";
+  line.innerHTML = suggestions
+    .map(
+      (s, i) =>
+        `<span class="suggestion-item${i === activeIndex ? " suggestion-active" : ""}"><span class="suggestion-text">${s}</span></span>`
+    )
+    .join("");
+  commands.appendChild(line);
+  scrollToBottom();
+}
+
+export function removeSuggestions() {
+  const existing = document.querySelectorAll(".autocomplete-suggestions");
+  existing.forEach((el) => el.remove());
 }

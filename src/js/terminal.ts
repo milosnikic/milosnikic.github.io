@@ -62,7 +62,7 @@ export class Terminal {
 
   processInput(input: string) {
     this.commandsHistory.push(input);
-    this.historyIndex = 0;
+    this.historyIndex = this.commandsHistory.length;
 
     this.parseInput(input);
 
@@ -130,6 +130,29 @@ export class Terminal {
 
   getCommandsHistory() {
     return this.commandsHistory;
+  }
+
+  getPreviousCommand() {
+    if (this.historyIndex <= 0) {
+      return this.commandsHistory[0];
+    }
+
+    this.decrementHistoryIndex();
+    return this.commandsHistory[this.historyIndex];
+  }
+
+  getNextCommand() {
+    if (this.historyIndex >= this.commandsHistory.length) {
+      return "";
+    }
+
+    if (this.historyIndex === this.commandsHistory.length - 1) {
+      this.incrementHistoryIndex();
+      return "";
+    }
+
+    this.incrementHistoryIndex();
+    return this.commandsHistory[this.historyIndex];
   }
 }
 
