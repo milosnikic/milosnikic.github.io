@@ -1,79 +1,98 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { KEYS } from "./constants.js";
 import { createCursorSpan } from "./utils.js";
+import { terminal } from "./terminal.js";
 export class Cursor {
-    constructor() {
+    constructor(input) {
         this.position = 0;
         this.element = document.getElementById("cursor");
+        this.input = input;
     }
     remove() {
         document.getElementById("cursor").remove();
     }
-    place(input) {
-        let content = input === null || input === void 0 ? void 0 : input.textContent;
+    place() {
+        var _a;
+        let content = (_a = this.input) === null || _a === void 0 ? void 0 : _a.textContent;
         this.element = createCursorSpan();
-        input.innerHTML =
+        this.input.innerHTML =
             (content === null || content === void 0 ? void 0 : content.slice(0, this.position)) +
                 this.element.outerHTML +
                 (content === null || content === void 0 ? void 0 : content.slice(this.position));
     }
+    setInput(input) {
+        this.input = input;
+    }
     resetPosition() {
         this.position = 0;
     }
-    setPosition(position, input) {
+    setPosition(position) {
         if (position == 0) {
             this.resetPosition();
             return;
         }
-        if (position > 0 && position <= input.textContent.length) {
+        if (position > 0 && position <= this.input.textContent.length) {
             this.position = position;
         }
     }
-    addTextContent(input, textContent) {
+    addTextContent(textContent) {
         this.remove();
-        let content = input.textContent;
-        input.textContent =
+        let content = this.input.textContent;
+        this.input.textContent =
             content.slice(0, this.position) +
                 textContent +
                 content.slice(this.position);
         this.position++;
-        this.place(input);
+        this.place();
     }
-    move(input, key, isAltPressed, isMetaPressed) {
-        if (!(input === null || input === void 0 ? void 0 : input.textContent) || !input.textContent.length) {
+    getText() {
+        return this.input.textContent.slice(0, this.input.textContent.length - 1);
+    }
+    move(key, isAltPressed, isMetaPressed) {
+        var _a, _b, _c;
+        if (!((_a = this.input) === null || _a === void 0 ? void 0 : _a.textContent) || !this.input.textContent.length) {
             return;
         }
         if (key === KEYS.ARROW_LEFT && this.position > 0) {
             this.remove();
             if (isAltPressed) {
-                this.setPosition(this.getAltIndexLeftFromCursor(input === null || input === void 0 ? void 0 : input.textContent), input);
+                this.setPosition(this.getAltIndexLeftFromCursor((_b = this.input) === null || _b === void 0 ? void 0 : _b.textContent));
             }
             else if (isMetaPressed) {
                 this.resetPosition();
             }
             else {
-                this.setPosition(this.position - 1, input);
+                this.setPosition(this.position - 1);
             }
-            this.place(input);
+            this.place();
         }
         if (key === KEYS.ARROW_RIGHT &&
-            this.position < input.textContent.length - 1 // here we are subtracting 1 because of cursor character
+            this.position < this.input.textContent.length - 1 // here we are subtracting 1 because of cursor character
         ) {
             this.remove();
             if (isAltPressed) {
-                this.setPosition(this.getAltIndexRightFromCursor(input === null || input === void 0 ? void 0 : input.textContent), input);
+                this.setPosition(this.getAltIndexRightFromCursor((_c = this.input) === null || _c === void 0 ? void 0 : _c.textContent));
             }
             else if (isMetaPressed) {
-                this.setPosition(input.textContent.length, input);
+                this.setPosition(this.input.textContent.length);
             }
             else {
-                this.setPosition(this.position + 1, input);
+                this.setPosition(this.position + 1);
             }
-            this.place(input);
+            this.place();
         }
     }
-    delete(input, isAltPressed) {
+    delete(isAltPressed) {
         this.remove();
-        let content = input.textContent;
+        let content = this.input.textContent;
         if (content.length > 0 && this.position > 0) {
             if (isAltPressed) {
                 // Here we should search left side of cursor
@@ -98,16 +117,16 @@ export class Cursor {
                 let contentAfterCursor = content.slice(this.position);
                 let deleteIndex = this.getAltIndexLeftFromCursor(contentBeforeCursor);
                 contentBeforeCursor = contentBeforeCursor.slice(0, deleteIndex);
-                input.textContent = contentBeforeCursor + contentAfterCursor;
-                this.setPosition(deleteIndex, input);
+                this.input.textContent = contentBeforeCursor + contentAfterCursor;
+                this.setPosition(deleteIndex);
             }
             else {
-                input.textContent =
+                this.input.textContent =
                     content.slice(0, this.position - 1) + content.slice(this.position);
                 this.position--;
             }
         }
-        this.place(input);
+        this.place();
     }
     getAltIndexLeftFromCursor(content) {
         content = content.slice(0, this.position);
@@ -129,5 +148,34 @@ export class Cursor {
             }
         }
         return index;
+    }
+    getPreviousFromHistory() {
+        const command = terminal.getPreviousCommand();
+        this.remove();
+        this.input.textContent = command;
+        this.position += command.length;
+        this.place();
+    }
+    getNextFromHistory() {
+        const command = terminal.getNextCommand();
+        this.remove();
+        this.position += command.length;
+        this.input.textContent = command;
+        this.place();
+    }
+    pasteFromClipboard() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pastedText = yield navigator.clipboard.readText();
+            this.remove();
+            this.input.textContent += pastedText;
+            this.position += pastedText.length;
+            this.place();
+        });
+    }
+    replaceText(text) {
+        this.remove();
+        this.input.textContent = text;
+        this.position = text.length;
+        this.place();
     }
 }

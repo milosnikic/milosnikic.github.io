@@ -9,10 +9,13 @@ describe("Terminal", function () {
         const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>");
         global.window = dom.window;
         global.document = dom.window.document;
+        beforeEach(function () {
+            terminal = new Terminal([], 0, true);
+        });
         it("shuld add command to history", function () {
             const commandsHistoryLength = terminal.commandsHistory.length;
             terminal.processInput("echo 'Hello'");
-            expect(terminal.historyIndex).toBe(0);
+            expect(terminal.historyIndex).toBe(commandsHistoryLength + 1);
             expect(terminal.commandsHistory.length).toBe(commandsHistoryLength + 1);
         });
         it("should return that command is not found", function () {

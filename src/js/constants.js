@@ -11,6 +11,7 @@ const KEYS = {
     ARROW_DOWN: "ArrowDown",
     ARROW_LEFT: "ArrowLeft",
     ARROW_RIGHT: "ArrowRight",
+    TAB: "Tab",
 };
 const IGNORE_KEYS = [KEYS.SHIFT, KEYS.ESC, KEYS.CAPS_LOCK];
 const CURSOR_CHARACTER = "▉";
