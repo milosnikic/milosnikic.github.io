@@ -17,8 +17,12 @@ export class UserInterface {
         this.toggleSwitch.addEventListener("change", (event) => {
             changeTheme();
         });
+        const modeToggle = document.getElementById("mode-toggle");
+        modeToggle.addEventListener("change", () => {
+            this.toggleMode(modeToggle.checked);
+        });
         this.typewrite("milOS CLI: Streamline Your Skills");
-        new InputProcessor();
+        this.inputProcessor = new InputProcessor();
     }
     draw() {
         this.ctx.fillStyle = terminal.isDarkTheme() ? "#000" : "#fff";
@@ -27,6 +31,23 @@ export class UserInterface {
             const drop = this.drops[i];
             this.styleDrops(drop);
             this.moveDrops(drop);
+        }
+    }
+    toggleMode(isHRMode) {
+        const html = document.documentElement;
+        const body = document.body;
+        const cvView = document.getElementById("cv-view");
+        if (isHRMode) {
+            html.classList.add("hr-mode");
+            body.classList.add("hr-mode");
+            cvView.classList.add("active");
+            this.inputProcessor.setDisabled(true);
+        }
+        else {
+            html.classList.remove("hr-mode");
+            body.classList.remove("hr-mode");
+            cvView.classList.remove("active");
+            this.inputProcessor.setDisabled(false);
         }
     }
     moveDrops(drop) {
@@ -81,8 +102,3 @@ export class UserInterface {
         }
     }
 }
-// TODO:
-// We should create simplified version with just text and emojis
-// that will be used for non-tech people that are more familiar
-// with reading, than messing with CLI 😊
-// Also, should consider adding pixel art image as avatar 👨‍💻

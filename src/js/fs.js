@@ -1,4 +1,4 @@
-import { BIOGRAPHY_TEXT, BACHELORS_DEGREE_TEXT, MASTERS_DEGREE_TEXT, PROJECTS, } from "./constants.js";
+import { BIOGRAPHY_TEXT, BACHELORS_DEGREE_TEXT, MASTERS_DEGREE_TEXT, PROJECTS, EXPERIENCE, } from "./constants.js";
 export class Node {
     constructor(name, type, children = null, content = null, absolutePath = "") {
         this.name = name;
@@ -18,7 +18,12 @@ export class FileSystem {
                     new Node("Master's degree Faculty of Organizational Sciences.txt", "file", null, MASTERS_DEGREE_TEXT, "/education/faculty/Master's degree Faculty of Organizational Sciences.txt"),
                 ], null, "/education/faculty"),
             ], null, "/education"),
-            new Node("experience", "directory", [], null, "/experience"),
+            new Node("experience", "directory", [
+                new Node("Metastack.txt", "file", null, EXPERIENCE.METASTACK_TEXT, "/experience/Metastack.txt"),
+                new Node("VortexWest.txt", "file", null, EXPERIENCE.VORTEX_WEST_TEXT, "/experience/VortexWest.txt"),
+                new Node("TNation.txt", "file", null, EXPERIENCE.TNATION_TEXT, "/experience/TNation.txt"),
+                new Node("ThingsSolver.txt", "file", null, EXPERIENCE.THINGS_SOLVER_TEXT, "/experience/ThingsSolver.txt"),
+            ], null, "/experience"),
             new Node("projects", "directory", [
                 new Node("FootballApp.txt", "file", null, PROJECTS.FOOTBALL_APP_TEXT, "/FootballApp.txt"),
                 new Node("Battleship.txt", "file", null, PROJECTS.BATTLESHIP_APP_TEXT, "/Battleship.txt"),
@@ -27,6 +32,10 @@ export class FileSystem {
                 new Node("ASCII Art.txt", "file", null, PROJECTS.ASCII_ART_APP_TEXT, "/ASCII Art.txt"),
                 new Node("Cerberus.txt", "file", null, PROJECTS.CERBERUS_APP_TEXT, "/Cerberus.txt"),
                 new Node("Carvana.txt", "file", null, PROJECTS.CARVANA_ML_TEXT, "/Carvana.txt"),
+                new Node("FamilyTree.txt", "file", null, PROJECTS.FAMILY_TREE_TEXT, "/projects/FamilyTree.txt"),
+                new Node("HL7Serializer.txt", "file", null, PROJECTS.HL7_SERIALIZER_TEXT, "/projects/HL7Serializer.txt"),
+                new Node("ZencoinBlockchain.txt", "file", null, PROJECTS.ZENCOIN_BLOCKCHAIN_TEXT, "/projects/ZencoinBlockchain.txt"),
+                new Node("RoomLightning.txt", "file", null, PROJECTS.ROOM_LIGHTNING_TEXT, "/projects/RoomLightning.txt"),
             ], null, "/projects"),
         ], null, "/");
         this.currentWorkingDirectory = this.root;

@@ -20,6 +20,7 @@ export class InputProcessor {
         this.activeSuggestions = [];
         this.suggestionIndex = -1;
         this.suggestionPrefix = "";
+        this.disabled = false;
         this.isControlPressed = false;
         this.isMetaPressed = false;
         this.isAltPressed = false;
@@ -59,6 +60,8 @@ export class InputProcessor {
                 this.isMetaPressed = true;
                 return;
             }
+            if (this.disabled)
+                return;
             this.input = document.getElementsByClassName("input active")[0];
             this.cursor.setInput(this.input);
             if (event.key !== KEYS.TAB) {
@@ -173,5 +176,8 @@ export class InputProcessor {
         var newCommandInput = createNewCommandInput();
         this.commandsElement.appendChild(newCommandInput);
         scrollToBottom();
+    }
+    setDisabled(disabled) {
+        this.disabled = disabled;
     }
 }

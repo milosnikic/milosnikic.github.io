@@ -85,6 +85,14 @@ export function changeTheme() {
     footer.classList.toggle("footer-light-theme");
     let rightsText = document.getElementById("credits-text");
     rightsText.classList.toggle("credits-text-light-theme");
+    let modeIcons = document.getElementsByClassName("mode-icon");
+    for (let i = 0; i < modeIcons.length; i++) {
+        modeIcons[i].classList.toggle("light-theme");
+    }
+    let toggleDivider = document.querySelector(".toggle-divider");
+    if (toggleDivider) {
+        toggleDivider.classList.toggle("light-theme");
+    }
     let socialIcons = document.getElementsByClassName("social-icon");
     const darkTheme = terminal.isDarkTheme();
     for (const index in socialIcons) {
