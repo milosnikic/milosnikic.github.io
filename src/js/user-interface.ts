@@ -48,14 +48,17 @@ export class UserInterface {
   }
 
   toggleMode(isHRMode: boolean) {
+    const html = document.documentElement;
     const body = document.body;
     const cvView = document.getElementById("cv-view") as HTMLElement;
 
     if (isHRMode) {
+      html.classList.add("hr-mode");
       body.classList.add("hr-mode");
       cvView.classList.add("active");
       this.inputProcessor.setDisabled(true);
     } else {
+      html.classList.remove("hr-mode");
       body.classList.remove("hr-mode");
       cvView.classList.remove("active");
       this.inputProcessor.setDisabled(false);
