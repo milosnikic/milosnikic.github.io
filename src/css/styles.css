@@ -405,21 +405,71 @@ img.themes {
   margin-bottom: 30px;
 }
 
-.cv-ascii-image {
+.cv-avatar-wrapper {
+  position: relative;
   display: inline-block;
-  border: 1px solid #00ff41;
-  padding: 10px;
-  margin-bottom: 12px;
-  text-shadow: 0 0 5px #00ff41;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 16px;
+  border: 2px solid #00ff41;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.5), 0 0 40px rgba(0, 255, 65, 0.2), inset 0 0 15px rgba(0, 255, 65, 0.1);
+  overflow: hidden;
 }
 
-.cv-ascii-image pre {
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
-  color: #00ff41;
-  font-size: 6px;
-  line-height: 1.0;
-  letter-spacing: 0px;
+.cv-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: grayscale(100%) brightness(1.1) contrast(1.3);
+  mix-blend-mode: luminosity;
+}
+
+.cv-avatar-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 255, 65, 0.15);
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cv-avatar-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+.cv-avatar-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: inset 0 0 30px rgba(0, 255, 65, 0.3), inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes avatar-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+
+.cv-avatar-wrapper {
+  animation: avatar-flicker 4s infinite;
 }
 
 .cv-name {
