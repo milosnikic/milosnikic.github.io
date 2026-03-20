@@ -21,6 +21,13 @@
           <span class="slider"></span>
         </label>
         <img src="./src/img/sun.png" alt="" class="themes" />
+        <span class="toggle-divider"></span>
+        <span class="mode-icon" title="Developer view">&lt;/&gt;</span>
+        <label class="switch">
+          <input type="checkbox" id="mode-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span class="mode-icon" title="HR view">&#128084;</span>
       </div>
     </div>
     <canvas id="canvas"> </canvas>
@@ -35,6 +42,179 @@
       </div>
       <div class="terminal-content" id="terminal-content">
         <ul id="commands" class="commands"></ul>
+      </div>
+    </div>
+    <div class="cv-view" id="cv-view">
+      <div class="cv-container">
+        <!-- Header -->
+        <div class="cv-header">
+          <div class="cv-ascii-image" id="cv-ascii-image">
+            <!-- ASCII art placeholder - user will provide -->
+            <pre>[ ASCII ART ]</pre>
+          </div>
+          <div class="cv-name">MILOŠ NIKIĆ</div>
+          <div class="cv-subtitle">Software Engineer · Co-Founder · Belgrade, Serbia</div>
+          <div class="cv-contact">
+            <a href="mailto:milos.nikic@gmail.com" class="cv-link">milos.nikic@gmail.com</a> ·
+            <a href="https://github.com/milosnikic" target="_blank" class="cv-link">github.com/milosnikic</a> ·
+            <a href="https://www.linkedin.com/in/milo%C5%A1-niki%C4%87-a14a56160/" target="_blank" class="cv-link">LinkedIn</a>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ SUMMARY</div>
+          <div class="cv-section-body">
+            Software engineer and technical co-founder with extensive experience in designing, developing and maintaining applications. Responsible for backend, infrastructure, and production scalability. Proficient in all phases of the agile software development lifecycle. Skilled in API design, distributed backend architectures, cloud-native deployments, and clean, maintainable code.
+          </div>
+        </div>
+
+        <!-- Metastack -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ METASTACK <span class="cv-role">— Co-Founder & Core Backend Engineer</span></div>
+          <div class="cv-section-body">
+            Co-architected an esports SaaS platform used globally by competitive and casual Counter-Strike players. Metastack provides a unified space to create, organize, and explore strategic game knowledge.
+          </div>
+          <div class="cv-bullets">
+            <div>• Co-architected backend and API design using Django & Django REST Framework</div>
+            <div>• Optimized PostgreSQL queries with profilers and implemented caching for high-traffic routes</div>
+            <div>• Built async workflows for image processing and background tasks</div>
+            <div>• Designed multi-tenant, team-based subscription model with fine-grained access control</div>
+            <div>• AWS infrastructure design, containerized deployments, CI/CD automation (Jenkins)</div>
+            <div>• Implemented observability and monitoring with CloudWatch metrics</div>
+            <div>• Event-driven communication using RabbitMQ, real-time collaboration via WebSockets</div>
+            <div>• Established strategic partnerships with GRID, Faceit/ESEA leagues, and CSMoney</div>
+          </div>
+          <div class="cv-tech">Django · DRF · PostgreSQL · AWS · Docker · Jenkins · RabbitMQ · WebSockets</div>
+        </div>
+
+        <!-- Experience -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ EXPERIENCE</div>
+
+          <div class="cv-experience-entry">
+            <div class="cv-company">Vortex West <span class="cv-role">· Software Developer · July 2022 - Present</span></div>
+            <div class="cv-project-name">Health clinics application — Web solution for 200+ US clinic affiliates</div>
+            <div class="cv-bullets">
+              <div>• Developed advanced RESTful APIs and Django plugins for selected affiliates</div>
+              <div>• Isolated time-consuming tasks from request-response cycle using message queues</div>
+              <div>• Contributed to CI/CD, Docker image optimization, and deployment processes</div>
+            </div>
+            <div class="cv-tech">Django · DRF · PostgreSQL · React · Docker</div>
+          </div>
+
+          <div class="cv-experience-entry">
+            <div class="cv-company">TNation <span class="cv-role">· C# Backend Developer · Oct 2019 – July 2022</span></div>
+            <div class="cv-project-name">Wiener Client Portal — Insurance policy management</div>
+            <div class="cv-bullets">
+              <div>• Built from scratch — architecture, database, frontend & backend</div>
+              <div>• Automated deployment via PowerShell to IIS</div>
+              <div>• Integrated Nestpay payment gateway</div>
+            </div>
+            <div class="cv-tech">.NET Core · C# · Entity Framework · Dapper · MSSQL · Angular</div>
+            <div class="cv-project-name" style="margin-top: 10px;">Optical store and hospital software — Appointments, records, purchase orders</div>
+            <div class="cv-bullets">
+              <div>• Full-stack development, stored procedures, SSRS reports</div>
+              <div>• External API integrations, Resico payment integration</div>
+              <div>• Managed IIS, certificates, Jenkins deployments</div>
+            </div>
+            <div class="cv-tech">.NET Framework · Entity Framework · MSSQL · SSRS · AngularJS</div>
+          </div>
+
+          <div class="cv-experience-entry">
+            <div class="cv-company">Things Solver <span class="cv-role">· Data Analyst (Internship) · Apr – July 2019</span></div>
+            <div class="cv-project-name">A1 Group — Predicting base station failure</div>
+            <div class="cv-bullets">
+              <div>• Data preprocessing on telecom industry dataset</div>
+              <div>• Labeled top 5 critical base stations by KPIs</div>
+              <div>• Anomaly detection using Autoencoders (Python)</div>
+            </div>
+            <div class="cv-tech">Python · Autoencoders · Data Analysis</div>
+          </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ TECHNICAL SKILLS</div>
+          <div class="cv-skills">
+            <div><span class="cv-skill-category">Backend:</span> Python · Django · DRF · C# · .NET · .NET Core · REST APIs · GraphQL</div>
+            <div><span class="cv-skill-category">Databases:</span> PostgreSQL · MSSQL · MongoDB · T-SQL · Entity Framework · LINQ</div>
+            <div><span class="cv-skill-category">Cloud & DevOps:</span> AWS · Docker · Kubernetes · Jenkins · CI/CD · Linux · Bash</div>
+            <div><span class="cv-skill-category">Frontend:</span> Angular · AngularJS · TypeScript · React</div>
+            <div><span class="cv-skill-category">Architecture:</span> Microservices · Event-driven · WebSockets · RabbitMQ · Multi-tenant SaaS</div>
+            <div><span class="cv-skill-category">Embedded:</span> C · C++ · Arduino · ESP8266 · FreeRTOS</div>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ EDUCATION</div>
+          <div class="cv-section-body">
+            <div><strong>M.Sc. Software Engineering & Computer Science</strong> <span class="cv-role">· 2019–2022</span></div>
+            <div class="cv-education-detail">Faculty of Organizational Sciences, Belgrade University</div>
+            <div style="margin-top: 8px;"><strong>B.Sc. Information Systems & Technologies</strong> <span class="cv-role">· 2015–2019</span></div>
+            <div class="cv-education-detail">Faculty of Organizational Sciences, Belgrade University</div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ PROJECTS</div>
+          <div class="cv-projects-grid">
+            <a href="https://github.com/milosnikic/FootballApp" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">FootballApp</div>
+              <div class="cv-project-card-tech">C# · ASP.NET · MSSQL · Angular</div>
+            </a>
+            <a href="https://github.com/milosnikic/cerberus" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Cerberus</div>
+              <div class="cv-project-card-tech">Python · Django · Redis · React</div>
+            </a>
+            <a href="https://github.com/milosnikic/family_tree" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Family Tree</div>
+              <div class="cv-project-card-tech">HTML · Visualization</div>
+            </a>
+            <a href="https://github.com/milosnikic/HL7Serializer" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">HL7Serializer</div>
+              <div class="cv-project-card-tech">C# · Healthcare · HL7 Protocol</div>
+            </a>
+            <a href="https://github.com/milosnikic/Battleship" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Battleship</div>
+              <div class="cv-project-card-tech">Java · JavaFX · MySQL · Networking</div>
+            </a>
+            <a href="https://github.com/milosnikic/zencoin-blockchain" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Zencoin Blockchain</div>
+              <div class="cv-project-card-tech">JavaScript · Blockchain</div>
+            </a>
+            <a href="https://github.com/milosnikic/ascii-art" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">ASCII Art</div>
+              <div class="cv-project-card-tech">Python · Pygame · Image Processing</div>
+            </a>
+            <a href="https://github.com/milosnikic/magic_map" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Magic Map</div>
+              <div class="cv-project-card-tech">Arduino Nano · Escape Room</div>
+            </a>
+            <a href="https://github.com/milosnikic/esp8266-thermal-system" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Thermal System</div>
+              <div class="cv-project-card-tech">Arduino ESP8266 · Home Automation</div>
+            </a>
+            <a href="https://github.com/milosnikic/room_lightning" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Room Lightning</div>
+              <div class="cv-project-card-tech">Arduino · FreeRTOS · C++</div>
+            </a>
+            <a href="https://github.com/milosnikic/Carvana" target="_blank" class="cv-project-card">
+              <div class="cv-project-card-name">Carvana</div>
+              <div class="cv-project-card-tech">Machine Learning · Python</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Open Source -->
+        <div class="cv-section">
+          <div class="cv-section-title">▸ OPEN SOURCE CONTRIBUTIONS</div>
+          <div class="cv-section-body cv-opensource">
+            JenkinsCI · Oh My Zsh · Django CMS · django-softdelete
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer" id="footer">
