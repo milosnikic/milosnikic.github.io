@@ -417,9 +417,9 @@ img.themes {
   margin: 0;
   font-family: 'Courier New', Courier, monospace;
   color: #00ff41;
-  font-size: 8px;
-  line-height: 1.1;
-  letter-spacing: 1px;
+  font-size: 6px;
+  line-height: 1.0;
+  letter-spacing: 0px;
 }
 
 .cv-name {
