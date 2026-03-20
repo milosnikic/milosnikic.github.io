@@ -625,3 +625,7 @@ body.hr-mode canvas {
 body.hr-mode .terminal {
   display: none;
 }
+
+body.hr-mode .footer {
+  position: relative;
+}
