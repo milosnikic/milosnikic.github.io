@@ -3,6 +3,7 @@ import {
   BACHELORS_DEGREE_TEXT,
   MASTERS_DEGREE_TEXT,
   PROJECTS,
+  EXPERIENCE,
 } from "./constants.js";
 
 export class Node {
@@ -67,7 +68,42 @@ export class FileSystem {
           null,
           "/education"
         ),
-        new Node("experience", "directory", [], null, "/experience"),
+        new Node(
+          "experience",
+          "directory",
+          [
+            new Node(
+              "Metastack.txt",
+              "file",
+              null,
+              EXPERIENCE.METASTACK_TEXT,
+              "/experience/Metastack.txt"
+            ),
+            new Node(
+              "VortexWest.txt",
+              "file",
+              null,
+              EXPERIENCE.VORTEX_WEST_TEXT,
+              "/experience/VortexWest.txt"
+            ),
+            new Node(
+              "TNation.txt",
+              "file",
+              null,
+              EXPERIENCE.TNATION_TEXT,
+              "/experience/TNation.txt"
+            ),
+            new Node(
+              "ThingsSolver.txt",
+              "file",
+              null,
+              EXPERIENCE.THINGS_SOLVER_TEXT,
+              "/experience/ThingsSolver.txt"
+            ),
+          ],
+          null,
+          "/experience"
+        ),
         new Node(
           "projects",
           "directory",
@@ -120,6 +156,34 @@ export class FileSystem {
               null,
               PROJECTS.CARVANA_ML_TEXT,
               "/Carvana.txt"
+            ),
+            new Node(
+              "FamilyTree.txt",
+              "file",
+              null,
+              PROJECTS.FAMILY_TREE_TEXT,
+              "/projects/FamilyTree.txt"
+            ),
+            new Node(
+              "HL7Serializer.txt",
+              "file",
+              null,
+              PROJECTS.HL7_SERIALIZER_TEXT,
+              "/projects/HL7Serializer.txt"
+            ),
+            new Node(
+              "ZencoinBlockchain.txt",
+              "file",
+              null,
+              PROJECTS.ZENCOIN_BLOCKCHAIN_TEXT,
+              "/projects/ZencoinBlockchain.txt"
+            ),
+            new Node(
+              "RoomLightning.txt",
+              "file",
+              null,
+              PROJECTS.ROOM_LIGHTNING_TEXT,
+              "/projects/RoomLightning.txt"
             ),
           ],
           null,

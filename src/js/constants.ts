@@ -19,20 +19,19 @@ const CURSOR_CHARACTER = "▉";
 const HOST = "milos.nikic@localhost";
 
 const BIOGRAPHY_TEXT =
-  "I am a skilled software engineer with 3 years of professional experience in designing, \
-developing, and maintaining applications. My expertise spans the entire software development life cycle, including \
-requirements gathering, design, coding, testing, deployment, and maintenance. <br><br>Throughout my career, I have \
-utilized agile methodology to deliver high-quality results that meet or exceed client expectations. I am well-versed \
-in object-oriented programming concepts and design patterns, which has enabled me to create robust, scalable, and \
-maintainable software solutions.<br><br>In addition, I have extensive experience in developing RESTful web services \
-and integrating external systems with existing architecture. My knowledge of relational databases (MSSQL) and NoSQL (MongoDB) \
-has allowed me to design and implement efficient and reliable data storage and retrieval systems.<br><br>\
-As a proponent of test-driven development (TDD), I am skilled in writing unit, integration, and API load tests to ensure \
-optimal functionality and performance.<br><br>My experience extends to developing modern, scalable web applications \
-across a variety of domains, including insurance, medication, banking, sports, and more. I have worked with various front-end \
-and back-end technologies, such as Angular, React, Node.js, and Spring.<br><br>I am a motivated and dedicated professional \
-who is always eager to broaden my knowledge and skills. I am committed to delivering high-quality work and contributing \
-to the success of my team and organization.";
+  "Software engineer and technical co-founder with extensive experience in designing, \
+developing, and maintaining applications. Responsible for backend, infrastructure, and production \
+scalability. Proficient in all phases of the agile software development lifecycle.<br><br>\
+Skilled in API design, distributed backend architectures, cloud-native deployments, and clean, \
+maintainable code. Deeply involved in the full lifecycle of backend systems — from architectural \
+decisions and infrastructure automation to delivering business value for real users.<br><br>\
+Experienced in object-oriented programming concepts, design patterns, and developing RESTful services. \
+Strong background in relational databases (PostgreSQL, MSSQL) and NoSQL (MongoDB). Proficient in \
+writing unit, integration, and API load tests using test-driven development.<br><br>\
+Built and scaled production systems across domains including esports, insurance, healthcare, and \
+telecommunications. Worked with Django, .NET, Angular, React, AWS, Docker, and Kubernetes.<br><br>\
+Co-founder of <a class=\"terminal-link\" target=\"_blank\" href=\"https://metastack.gg\">Metastack</a>, \
+an esports SaaS platform used globally by competitive Counter-Strike players.";
 
 const MASTERS_DEGREE_TEXT =
   "<span><strong>Master's degree in Software Engineering and Computer Science from the Faculty of Organizational \
@@ -86,6 +85,68 @@ const PROJECTS = {
     '<span>Machine learning project which goal is to determine whether a car is a good or bad buy based\
     on a multiple characteristics.<br><br>\
     <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/Carvana">Visit repository</a></span>',
+  FAMILY_TREE_TEXT:
+    '<span>Family tree visualization tool that renders family relationships in an interactive visual format.<br><br>\
+    <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/family_tree">Visit repository</a></span>',
+  HL7_SERIALIZER_TEXT:
+    '<span>HL7 Serializer implementation in C# for sending clinical information. Handles serialization \
+    and deserialization of HL7 protocol messages used in healthcare systems integration.<br><br>\
+    <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/HL7Serializer">Visit repository</a></span>',
+  ZENCOIN_BLOCKCHAIN_TEXT:
+    '<span>Simple blockchain implementation using JavaScript. Demonstrates core blockchain concepts \
+    including hashing, proof of work, and chain validation.<br><br>\
+    <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/zencoin-blockchain">Visit repository</a></span>',
+  ROOM_LIGHTNING_TEXT:
+    '<span>Arduino FreeRTOS project for under table lighting. Uses real-time operating system concepts \
+    for controlling LED lighting with multiple concurrent tasks.<br><br>\
+    <a class="terminal-link" target="_blank" href="https://github.com/milosnikic/room_lightning">Visit repository</a></span>',
+};
+
+const EXPERIENCE = {
+  METASTACK_TEXT:
+    '<span><strong>Metastack — Co-Founder & Core Backend Engineer</strong><br><br>\
+    Co-architected an esports SaaS platform used globally by competitive and casual Counter-Strike players. \
+    Metastack provides a unified space to create, organize, and explore strategic game knowledge.<br><br>\
+    • Co-architected backend and API design using Django & Django REST Framework<br>\
+    • Optimized PostgreSQL queries with profilers and implemented caching for high-traffic routes<br>\
+    • Built async workflows for image processing and background tasks<br>\
+    • Designed multi-tenant, team-based subscription model with fine-grained access control<br>\
+    • AWS infrastructure design, containerized deployments, CI/CD automation (Jenkins)<br>\
+    • Implemented observability and monitoring with CloudWatch metrics<br>\
+    • Event-driven communication using RabbitMQ, real-time collaboration via WebSockets<br>\
+    • Established strategic partnerships with GRID, Faceit/ESEA leagues, and CSMoney<br><br>\
+    Technologies: Django, DRF, PostgreSQL, AWS, Docker, Jenkins, RabbitMQ, WebSockets<br><br>\
+    <a class="terminal-link" target="_blank" href="https://metastack.gg">Visit Metastack</a></span>',
+  VORTEX_WEST_TEXT:
+    '<span><strong>Vortex West — Software Developer (July 2022 - Present)</strong><br>Belgrade, Serbia<br><br>\
+    <em>Health clinics application</em> — Web solution for clinics located in United States, enhancing \
+    the workflow for over 200 affiliates. The platform enables affiliates to personalize their \
+    applications, arrange patient visits, and showcase various clinic services.<br><br>\
+    • Developed advanced RESTful APIs and Django plugins, tailored specifically for selected affiliates<br>\
+    • Isolated time-consuming tasks from request-response cycle by utilizing message queues<br>\
+    • Contributed to the development of CI/CD, optimization of Docker images, and deployment processes<br><br>\
+    Technologies: Django, DRF, PostgreSQL, React, Docker</span>',
+  TNATION_TEXT:
+    '<span><strong>TNation — C# Backend Developer (Oct 2019 – July 2022)</strong><br>Belgrade, Serbia<br><br>\
+    <em>1. Wiener Client Portal</em> — Application for customers to look through, pay and open new insurance policies.<br><br>\
+    • Developed solution from scratch — creating the architecture, database and coding both frontend and backend<br>\
+    • Created PowerShell script for fully automated application deployment to IIS<br>\
+    • Successfully integrated Nestpay payment gateway for paying insurance policy installments<br><br>\
+    Technologies: .NET Core, C#, Entity Framework, Dapper, WebApi, MSSQL, Angular<br><br>\
+    <em>2. Optical store and hospital software</em> — Web solution for hospitals and optical stores for \
+    making appointments, creating purchase orders, and keeping medical records of patients.<br><br>\
+    • Worked on both backend and frontend part of the application<br>\
+    • Created stored procedures, database entities, jobs, reports in SSRS<br>\
+    • Handled various external systems integrations via APIs<br>\
+    • Managed IIS, server certificates and application deployment with Jenkins<br><br>\
+    Technologies: .NET Framework, Entity Framework, MSSQL, SSRS, AngularJS</span>',
+  THINGS_SOLVER_TEXT:
+    '<span><strong>Things Solver — Data Analyst, Internship (Apr – July 2019)</strong><br>Belgrade, Serbia<br><br>\
+    <em>A1 Group</em> — Creating solution for predicting base station failure possibility.<br><br>\
+    • Data preprocessing on real dataset from telecommunications industry<br>\
+    • Managed to label top 5 critical base stations based on previously determined most important KPIs<br>\
+    • Identified anomalous behavior in performances of telecommunications network using Autoencoders<br><br>\
+    Technologies: Python, Autoencoders, Data Analysis</span>',
 };
 
 const COMMANDS = {
@@ -111,5 +172,6 @@ export {
   MASTERS_DEGREE_TEXT,
   BACHELORS_DEGREE_TEXT,
   PROJECTS,
+  EXPERIENCE,
   COMMANDS,
 };
